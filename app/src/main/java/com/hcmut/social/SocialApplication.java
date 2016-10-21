@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.crittercism.app.Crittercism;
+import com.facebook.stetho.Stetho;
 import com.hcmut.social.activity.LoginActivity;
 import com.hcmut.social.controller.ControllerCenter;
 import com.hcmut.social.controller.controllerdata.RequestData;
@@ -59,6 +60,9 @@ public class SocialApplication extends Application implements DataCenter.ErrorCa
         ImageLoader.getInstance().init(config);
 
         CustomSharedPreferences.init(this);
+
+        /** Setup debug with Stetho facebook, chrome://inspect/#devices*/
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override

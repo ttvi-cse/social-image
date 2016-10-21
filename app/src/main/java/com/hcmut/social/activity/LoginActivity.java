@@ -36,7 +36,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 //        EventBus.getDefault().register(this);
 
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_layout);
 
         mProgressDialog = DialogUtil.createProgressDialog(this);
         mProgressDialog.setCanceledOnTouchOutside(false);
