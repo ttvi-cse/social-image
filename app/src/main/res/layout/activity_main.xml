@@ -21,7 +21,7 @@
         android:background="@color/blue_main"
         app:tabGravity="fill"
         app:tabBackground="@drawable/tab_color_selector"
-        app:tabSelectedTextColor="@color/white"
+        app:tabIndicatorColor="@color/white"
         app:tabMode="fixed"/>
 
 </RelativeLayout>
