@@ -3,8 +3,8 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="blue_main">#3399FF</color>
-    <color name="tab_background_selected">#FFFFFF</color>
-    <color name="tab_background_unselected">#3399FF</color>
+    <color name="tab_background_selected">#1a66ff</color>
+    <color name="tab_background_unselected">#6699ff</color>
     <color name="white_alpha">#55FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="red">#FF0000</color>
