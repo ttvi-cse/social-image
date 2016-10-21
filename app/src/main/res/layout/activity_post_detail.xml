@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/color_bg_search">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_22sp"
+            android:text="@string/post_detail"
+            android:id="@+id/tv_library"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/back_button"
+            android:layout_centerVertical="true"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="62dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_button_selector"
+            android:src="@drawable/ic_back_white" />
+
+    </RelativeLayout>
+
+    <include
+        layout="@layout/row_post" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/comment_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:visibility="visible"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+</LinearLayout>

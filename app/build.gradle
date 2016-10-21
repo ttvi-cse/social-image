@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+
+    }
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
+    defaultConfig {
+        applicationId "com.hcmut.social"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        def APP_NAME_PREFIX = "social_"
+        def VERSION_NAME = defaultConfig.versionName.replace(".", "_") + "__" + defaultConfig.versionCode
+
+        debug {
+            buildConfigField "String", "ROOT_DOMAIN", "\"http://192.168.1.111:8000/\""
+            buildConfigField "String", "USER_NAME", "\"admin\""
+            buildConfigField "String", "PASSWORD", "\"123456\""
+            minifyEnabled false
+            debuggable true
+            def OUTPUT_NAME = "_dev"
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("app-debug", APP_NAME_PREFIX + VERSION_NAME + OUTPUT_NAME)
+                    )
+                }
+            }
+        }
+
+        production {
+            buildConfigField "String", "ROOT_DOMAIN", "\"http://192.168.1.116:8000/\""
+            buildConfigField "String", "USER_NAME", "\"\""
+            buildConfigField "String", "PASSWORD", "\"\""
+            minifyEnabled false
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [google_map_key: "AIzaSyCEKrnfzNTHf0C8vnONwpmpmjD_lcpkJfo"]
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("app-", APP_NAME_PREFIX + VERSION_NAME)
+                    )
+                }
+            }
+//            signingConfig signingConfigs.TemporallySigning
+//            zipAlignEnabled true
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    compile 'com.crittercism:crittercism-android-agent:+'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.google.android.gms:play-services:6.5.87'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.facebook.stetho:stetho:1.4.1'
+
+    // Image slider
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+}

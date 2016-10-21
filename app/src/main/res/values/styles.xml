@@ -1,0 +1,254 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.Transparent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="tab_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:paddingLeft">@dimen/tab_left_padding</item>
+        <item name="android:paddingRight">@dimen/tab_right_padding</item>
+        <item name="android:background">@drawable/tab_button_selector</item>
+        <!--<item name="android:textColor">@color/tab_text</item>-->
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="article_row_text_count">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="article_rating_bar_27" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/article_rating_bar_27</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
+    </style>
+
+    <style name="article_rating_bar_46" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/article_rating_bar_46</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:maxHeight">30dp</item>
+    </style>
+
+    <style name="right_panel">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_gravity">end|right</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="left_panel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_gravity">start|left</item>
+        <item name="android:clickable">true</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="title_shadow">
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <!--<item name="android:background">@drawable/bg_shadow</item>-->
+    </style>
+
+    <style name="article_detail_left_menu_row">
+        <item name="android:layout_height">@dimen/sliding_menu_row_height_large</item>
+        <item name="android:paddingLeft">@dimen/sliding_menu_padding_left</item>
+        <item name="android:paddingRight">@dimen/sliding_menu_padding_right</item>
+        <item name="android:background">@drawable/menu_button_selector</item>
+        <item name="android:drawablePadding">@dimen/sliding_menu_header_drawable_padding</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/art_detail_sliding_menu_text</item>
+        <item name="android:textSize">@dimen/sliding_menu_text_size</item>
+    </style>
+
+    <style name="sliding_menu_div">
+        <item name="android:layout_height">@dimen/div_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/sliding_menu_padding_left</item>
+        <item name="android:layout_marginRight">@dimen/sliding_menu_padding_right</item>
+        <item name="android:background">@color/bg_div</item>
+    </style>
+
+    <style name="dialog_button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/dialog_button_selector</item>
+    </style>
+
+    <style name="send_button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:text"></item>
+        <item name="android:background">@drawable/send_button_selector</item>
+    </style>
+
+    <style name="green_button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/green_button_selector</item>
+    </style>
+
+    <style name="title_bar_button">
+        <item name="android:layout_width">@dimen/title_bar_button_width</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/menu_button_selector</item>
+    </style>
+
+    <style name="title_bar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/title_bar_height</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="bottom_bar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/title_bar_height</item>
+        <item name="android:background">@color/transparent_black_percent_10</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <style name="my_profile_normal_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+
+    <style name="my_profile_info_text" parent="my_profile_normal_text">
+        <item name="android:layout_marginTop">10dp</item>
+        <!--<item name="android:layout_alignLeft">@id/name_text</item>-->
+    </style>
+
+    <style name="div_cross">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@drawable/bg_cross</item>
+    </style>
+
+    <style name="my_profile_header_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+
+    <style name="my_profile_content_text" parent="my_profile_normal_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:gravity">top|left</item>
+    </style>
+
+    <style name="my_profile_info_edit_text" parent="my_profile_content_text">
+        <item name="android:layout_marginTop">-6dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:background">@drawable/bg_dialog_edittext</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:gravity">top|left</item>
+    </style>
+
+    <style name="quiz_hint">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:paddingTop">8sp</item>
+        <item name="android:paddingBottom">8sp</item>
+        <item name="android:paddingLeft">16sp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="quiz_option">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:paddingTop">8sp</item>
+        <item name="android:paddingBottom">8sp</item>
+        <item name="android:paddingLeft">16sp</item>
+        <item name="android:drawablePadding">16sp</item>
+        <item name="android:background">@drawable/menu_button_selector</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="quiz_option_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">59dp</item>
+        <item name="android:gravity">top|left</item>
+        <!--<item name="android:lines">2</item>-->
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:padding">8sp</item>
+        <item name="android:background">@drawable/bg_dialog_edittext</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="share_dialog_edt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_dialog_edittext</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="share_dialog_single_line_edt" parent="share_dialog_edt">
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="share_dialog_multiline_edt" parent="share_dialog_edt">
+        <item name="android:gravity">top|left</item>
+    </style>
+
+    <style name="change_password_edt" parent="share_dialog_single_line_edt">
+        <item name="android:layout_marginLeft">78dp</item>
+        <item name="android:layout_marginRight">57dp</item>
+        <item name="android:layout_marginBottom">18dp</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="recommendation_panel_button">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:background">@drawable/menu_button_selector</item>
+        <item name="android:textSize">12sp</item>
+        <!--<item name="android:textColor">@color/showmore_text_button</item>-->
+        <!--<item name="android:drawableLeft">@drawable/check_recommendation_selector</item>-->
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:paddingLeft">12dp</item>
+    </style>
+
+    <style name="my_profile_guide_text" parent="my_profile_content_text">
+        <item name="android:textColor">@color/text_grey_lighter</item>
+    </style>
+
+
+    <style name="simpletooltip_default" parent="@android:style/TextAppearance.Medium"></style>
+
+</resources>

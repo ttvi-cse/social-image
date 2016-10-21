@@ -1,0 +1,64 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Contact -->
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_3">3dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_18">18dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_22">22dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_36">36dp</dimen>
+    <dimen name="margin_vspace_text">15px</dimen>
+    <!-- homepage -->
+    <dimen name="title_bar_height">50dp</dimen>
+    <dimen name="title_bar_button_width">54dp</dimen>
+    <dimen name="tab_left_padding">10dp</dimen>
+    <dimen name="tab_right_padding">10dp</dimen>
+    <dimen name="bookmark_button_size">44dp</dimen>
+
+    <!-- article -->
+    <dimen name="sliding_menu_tag_text_size">22sp</dimen>
+    <dimen name="sliding_menu_text_size">22sp</dimen>
+    <dimen name="sliding_menu_padding_left">16dp</dimen>
+    <dimen name="edt_comment_padding">14dp</dimen>
+    <dimen name="sliding_menu_padding_right">16dp</dimen>
+    <dimen name="sliding_menu_header_drawable_padding">15dp</dimen>
+    <dimen name="sliding_menu_row_height">56dp</dimen>
+    <dimen name="sliding_menu_row_height_large">62dp</dimen>
+    <dimen name="div_height">1dp</dimen>
+
+    <!-- event -->
+    <dimen name="event_button_12sp">12sp</dimen>
+    <dimen name="event_button_14sp">14sp</dimen>
+    <dimen name="event_detail_width_title">130dp</dimen>
+    <dimen name="font_size_12sp">12sp</dimen>
+    <dimen name="font_size_13sp">13sp</dimen>
+    <dimen name="font_size_14sp">14sp</dimen>
+    <dimen name="font_size_15sp">15sp</dimen>
+    <dimen name="font_size_16sp">16sp</dimen>
+    <dimen name="font_size_17sp">17sp</dimen>
+    <dimen name="font_size_18sp">18sp</dimen>
+    <dimen name="font_size_19sp">19sp</dimen>
+    <dimen name="font_size_20sp">20sp</dimen>
+    <dimen name="font_size_21sp">21sp</dimen>
+    <dimen name="font_size_22sp">22sp</dimen>
+
+
+    <dimen name="simpletooltip_max_width">150dp</dimen>
+    <dimen name="simpletooltip_overlay_circle_offset">10dp</dimen>
+    <dimen name="simpletooltip_margin">10dp</dimen>
+    <dimen name="simpletooltip_padding">8dp</dimen>
+    <dimen name="simpletooltip_arrow_width">30dp</dimen>
+    <dimen name="simpletooltip_arrow_height">15dp</dimen>
+    <dimen name="simpletooltip_animation_padding">4dp</dimen>
+</resources>

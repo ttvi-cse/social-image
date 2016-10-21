@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_alpha">#55FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="red">#FF0000</color>
+    <color name="text_grey">#333333</color>
+    <color name="text_grey_lighter">#999</color>
+    <color name="text_grey_disable">#99333333</color>
+    <color name="color_bg_search">#26303F</color>
+    <color name="color_contact_name">#16B4EB</color>
+    <color name="color_contact">#1F1F1F</color>
+    <color name="article_tag_bg_blue">#1da9da</color>
+    <color name="login_edittext">#eeeeee</color>
+    <color name="login_button_hover">#116583</color>
+    <color name="login_button">#1da9da</color>
+    <color name="bg_div">#a8dff4</color>
+    <color name="art_detail_sliding_menu_text">#0099cc</color>
+
+    <color name="dialog_button">#1da9da</color>
+    <color name="dialog_hover_button">#116583</color>
+    <color name="dialog_button_disable">#991da9da</color>
+
+    <color name="green_button">#8abd00</color>
+    <color name="green_hover_button">#537100</color>
+    <color name="green_button_disable">#998abd00</color>
+
+    <color name="color_event_name">#1F1F1F</color>
+    <color name="color_event">#1F1F1F</color>
+    <color name="button_event_un_join">#06546f</color>
+    <color name="button_event_feedback">#61c610</color>
+    <color name="button_event_join">#1da9da</color>
+    <color name="button_event_close">#808080</color>
+
+    <color name="main_right_menu_header">#0099cc</color>
+    <color name="answer_nagative">#ff8800</color>
+    <color name="notification_grey_read">#44999999</color>
+
+    <color name="refresh_1">#ff8800</color>
+    <color name="refresh_2">#61c610</color>
+    <color name="refresh_3">#1da9da</color>
+
+    <color name="transparent_white_percent_5">#0Dffffff</color>
+    <color name="transparent_white_percent_10">#1Affffff</color>
+    <color name="transparent_white_percent_15">#26ffffff</color>
+    <color name="transparent_white_percent_20">#33ffffff</color>
+    <color name="transparent_white_percent_25">#40ffffff</color>
+    <color name="transparent_white_percent_30">#4Dffffff</color>
+    <color name="transparent_white_percent_35">#59ffffff</color>
+    <color name="transparent_white_percent_40">#66ffffff</color>
+    <color name="transparent_white_percent_45">#73ffffff</color>
+    <color name="transparent_white_percent_50">#80ffffff</color>
+    <color name="transparent_white_percent_55">#8Cffffff</color>
+    <color name="transparent_white_percent_60">#99ffffff</color>
+    <color name="transparent_white_percent_65">#A6ffffff</color>
+    <color name="transparent_white_percent_70">#B3ffffff</color>
+    <color name="transparent_white_percent_75">#BFffffff</color>
+    <color name="transparent_white_percent_80">#CCffffff</color>
+    <color name="transparent_white_percent_85">#D9ffffff</color>
+    <color name="transparent_white_percent_90">#E6ffffff</color>
+    <color name="transparent_white_percent_95">#F2ffffff</color>
+
+    <color name="transparent_black_percent_5">#0D000000</color>
+    <color name="transparent_black_percent_10">#1A000000</color>
+    <color name="transparent_black_percent_15">#26000000</color>
+    <color name="transparent_black_percent_20">#33000000</color>
+    <color name="transparent_black_percent_25">#40000000</color>
+    <color name="transparent_black_percent_30">#4D000000</color>
+    <color name="transparent_black_percent_35">#59000000</color>
+    <color name="transparent_black_percent_40">#66000000</color>
+    <color name="transparent_black_percent_45">#73000000</color>
+    <color name="transparent_black_percent_50">#80000000</color>
+    <color name="transparent_black_percent_55">#8C000000</color>
+    <color name="transparent_black_percent_60">#99000000</color>
+    <color name="transparent_black_percent_65">#A6000000</color>
+    <color name="transparent_black_percent_70">#B3000000</color>
+    <color name="transparent_black_percent_75">#BF000000</color>
+    <color name="transparent_black_percent_80">#CC000000</color>
+    <color name="transparent_black_percent_85">#D9000000</color>
+    <color name="transparent_black_percent_90">#E6000000</color>
+    <color name="transparent_black_percent_95">#F2000000</color>
+</resources>

@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Porject-SocialImage-App</string>
+    <string name="guest_name" />
+    <string name="loading">Loading</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">Ok</string>
+
+    <string name="error_login_failed">You have entered an invalid username or password. Please try again.</string>
+    <string name="error_unauthorized">unauthorized error</string>
+    <string name="error_data_not_found">data not found</string>
+    <string name="error_unsupported_media_type">unsupported media type</string>
+    <string name="error_data_invalid">invalid data</string>
+    <string name="error_server_error">internal server error</string>
+    <string name="error_controller">Error: %1$s</string>
+    <string name="error_not_connection">Error while connecting to server. Trying again to reconnect</string>
+
+    <!--Navigation-->
+    <string name="home_page">Hoome page</string>
+    <string name="search">Search</string>
+    <string name="favorite">Favorite</string>
+    <string name="my_page">My page</string>
+    <string name="post_num">%d posts</string>
+    <string name="library">Library</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="next">Next</string>
+
+    <!--Login-->
+    <string name="user_name">User name</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="signup">Don\'t have an account? Sign up</string>
+    <string name="email">Email</string>
+    <string name="register">Register</string>
+    <string name="submit">Submit</string>
+
+    <!--Post manimulation-->
+    <string name="timestamp">$d day ago</string>
+    <string name="images">Images</string>
+    <string name="comments">Comments</string>
+    <string name="post">Post</string>
+    <string name="add_content">Add content</string>
+    <string name="add_position">Add position</string>
+    <string name="add_favorite">Add favorite</string>
+
+    <!--Comment-->
+    <string name="say_something">Say something</string>
+
+    <!--Search-->
+    <string name="near_location">Near location</string>
+    <string name="error_require_username">Please enter username.</string>
+    <string name="error_require_email">Please enter email.</string>
+    <string name="error_require_password">Please enter password.</string>
+
+    <!--My page-->
+    <string name="choise_file">Choise your file resource: </string>
+    <string name="pick_a_file">Pick a file</string>
+    <string name="take_a_picture">Take a picture</string>
+
+    <!--Post detail-->
+    <string name="post_detail">Post detail</string>
+
+</resources>
+

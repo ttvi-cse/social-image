@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/avatar_imageview"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/img_no_image"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="New Text"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_grey"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/avatar_imageview"
+            android:id="@+id/username_text"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="215dp"
+        android:id="@+id/content_imageview"
+        android:scaleType="centerCrop"
+        android:background="@drawable/img_no_image" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="@color/article_tag_bg_blue">
+
+        <TextView
+            android:text="999"
+            android:id="@+id/like_count_text"
+            android:drawableLeft="@drawable/ic_share_count"
+            style="@style/article_row_text_count"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:text="999"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toRightOf="@id/like_count_text"
+            style="@style/article_row_text_count"
+            android:drawableLeft="@drawable/ic_view_count"
+            android:id="@+id/view_count_text"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:layout_alignParentRight="true"
+            style="@style/article_rating_bar_27"
+            android:numStars="5"
+            android:id="@+id/rating_bar" />
+    </RelativeLayout>
+
+</LinearLayout>
