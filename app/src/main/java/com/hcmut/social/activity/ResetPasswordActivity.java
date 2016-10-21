@@ -24,7 +24,8 @@ public class ResetPasswordActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset_password);
+//        setContentView(R.layout.activity_reset_password);
+        setContentView(R.layout.activity_forget_password_v1);
 
         mProgressDialog = DialogUtil.createProgressDialog(this);
         mProgressDialog.setCanceledOnTouchOutside(false);
