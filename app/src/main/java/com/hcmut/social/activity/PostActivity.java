@@ -62,10 +62,9 @@ public class PostActivity extends BaseActivity{
 //                    Dialog
 //                };
 
+                showProgressDialog();
                 CreatePostRequestData requestData = new CreatePostRequestData(String.valueOf(userId), imagePath, content);
                 DataCenter.getInstance().doRequest(requestData);
-
-                finish();
             }
         });
 
@@ -89,7 +88,7 @@ public class PostActivity extends BaseActivity{
 
     @Override
     protected int[] getListEventHandle() {
-        return new int[] {};
+        return new int[] {RequestData.TYPE_CREATE_POST};
     }
 
     @Override
@@ -98,9 +97,16 @@ public class PostActivity extends BaseActivity{
             onLoadFail(requestData, responseData);
             return;
         }
+
+        hideProgressDialog();
+
+        if (requestData.getType() == RequestData.TYPE_CREATE_POST) {
+            finish();
+        }
     }
 
     @Override
     public void onLoadFail(RequestData requestData, ResponseData responseData) {
+        hideProgressDialog();
     }
 }

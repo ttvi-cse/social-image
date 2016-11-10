@@ -24,7 +24,6 @@ public class LoginManager implements DataCallback {
     private static final String LOGIN_FROM_PREF = "loginfpref";
     private static final String KEY_USER_ID = "kui";
     private static final String KEY_USERNAME = "kun";
-    private static final String KEY_USER_TYPE = "kut";
     private static final String KEY_USER_TOKEN = "kt";
     private static final String KEY_TOKEN_EXPIRATION = "kte";
     private static final String KEY_LOGIN_TIME = "klt";
@@ -68,7 +67,6 @@ public class LoginManager implements DataCallback {
         e.putInt(KEY_USER_ID, mLoginModel.id);
         e.putString(KEY_USERNAME,mLoginModel.username);
         e.putString(KEY_PASSWORD, mLoginModel.password);
-        e.putString(KEY_USER_TYPE, mLoginModel.type_id);
         e.putString(KEY_USER_TOKEN, mLoginModel.token);
         e.putLong(KEY_TOKEN_EXPIRATION,
                 mLoginModel.expiration);
@@ -109,7 +107,6 @@ public class LoginManager implements DataCallback {
                 -1);
         mLoginModel.username = sp.getString(KEY_USERNAME, null);
         mLoginModel.password = sp.getString(KEY_PASSWORD, null);
-        mLoginModel.type_id = sp.getString(KEY_USER_TYPE, null);
         mLoginModel.token = sp.getString(KEY_USER_TOKEN,
                 null);
         mLoginModel.isLogin = sp.getBoolean(KEY_IS_LOGIN, false);
@@ -245,8 +242,8 @@ public class LoginManager implements DataCallback {
         return mLoginModel;
     }
 
-    public String getUserId() {
-        return String.valueOf(mLoginModel.id);
+    public int getUserId() {
+        return mLoginModel.id;
     }
 
     public MyProfileModel getUserInfo() {

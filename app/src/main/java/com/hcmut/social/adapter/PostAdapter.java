@@ -13,7 +13,6 @@ import com.hcmut.social.R;
 import com.hcmut.social.model.PostModel;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
 
@@ -26,9 +25,19 @@ public class PostAdapter extends BaseSocialAdapter {
     private List<PostModel> mData;
     private DisplayImageOptions mOpts;
 
+    private OnPostItemClickListener listener;
+
+    public interface OnPostItemClickListener {
+        void onItemClick(PostModel post);
+    }
+
     public void setData(List<PostModel> mData) {
         this.mData = mData;
         notifyDataSetChanged();
+    }
+
+    public void setListener(OnPostItemClickListener listener) {
+        this.listener = listener;
     }
 
     public PostAdapter(Context mContext) {
@@ -110,7 +119,12 @@ public class PostAdapter extends BaseSocialAdapter {
             tv_view_count.setText(model.view_count+"");
             rating_bar.setRating(model.rating_average);
             ImageLoader.getInstance().displayImage(model.thumb, img_content, mOpts);
-
+            img_content.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(model);
+                }
+            });
         }
     }
 }

@@ -3,6 +3,7 @@ package com.hcmut.social.fragment;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,10 +27,20 @@ import com.hcmut.social.adapter.PostImageAdapter;
 import com.hcmut.social.controller.controllerdata.ListPostRequestData;
 import com.hcmut.social.controller.controllerdata.RequestData;
 import com.hcmut.social.controller.controllerdata.ResponseData;
+import com.hcmut.social.controller.controllerdata.UploadPhotoRequestData;
 import com.hcmut.social.datacenter.DataCenter;
 import com.hcmut.social.model.PostModel;
 import com.hcmut.social.utils.DialogUtil;
+import com.hcmut.social.utils.FileUtils;
+import com.hcmut.social.utils.UserUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -39,6 +51,10 @@ public class MyPageFragment extends MainBaseFragment {
 
     private static final int REQUEST_CODE_PICK_FILE = 101;
     private static final int REQUEST_CODE_IMAGE_CAPTURE = 102;
+
+    private static final int REQUEST_CODE_PICK_AVATAR_FILE = 201;
+    private static final int REQUEST_CODE_AVATAR_IMAGE_CAPTURE = 202;
+
 
     ProgressBar mProgressBar;
 
@@ -54,6 +70,15 @@ public class MyPageFragment extends MainBaseFragment {
     ListView mContentListView;
     GridView mContentGridView;
 
+    // profile
+    View mViewProfile;
+    ImageView mProfileAvatar;
+    EditText mFullNameEditText;
+    EditText mUsernameEditText;
+    EditText mEmailEditText;
+    Button mSaveButton;
+
+
     private List<PostModel> mPostData;
     private PostAdapter mPostAdapter;
     private PostImageAdapter mPostImageAdapter;
@@ -68,7 +93,11 @@ public class MyPageFragment extends MainBaseFragment {
 
     @Override
     protected int[] getListEventHandle() {
-        return new int[] {RequestData.TYPE_LIST_POSTS, RequestData.TYPE_CREATE_POST};
+        return new int[] {
+                RequestData.TYPE_LIST_POSTS,
+                RequestData.TYPE_CREATE_POST,
+                RequestData.TYPE_UPLOAD_AVATAR
+        };
     }
 
     @Override
@@ -91,6 +120,7 @@ public class MyPageFragment extends MainBaseFragment {
             public void onClick(View v) {
                 mContentListView.setVisibility(View.VISIBLE);
                 mContentGridView.setVisibility(View.GONE);
+                mViewProfile.setVisibility(View.GONE);
             }
         });
 
@@ -100,6 +130,7 @@ public class MyPageFragment extends MainBaseFragment {
             public void onClick(View v) {
                 mContentListView.setVisibility(View.GONE);
                 mContentGridView.setVisibility(View.VISIBLE);
+                mViewProfile.setVisibility(View.GONE);
             }
         });
 
@@ -107,7 +138,9 @@ public class MyPageFragment extends MainBaseFragment {
         mViewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mContentListView.setVisibility(View.GONE);
+                mContentGridView.setVisibility(View.GONE);
+                mViewProfile.setVisibility(View.VISIBLE);
             }
         });
 
@@ -125,6 +158,23 @@ public class MyPageFragment extends MainBaseFragment {
         mContentListView.setVisibility(View.VISIBLE);
         mContentGridView.setVisibility(View.GONE);
 
+        mViewProfile = rootView.findViewById(R.id.view_profile);
+        mProfileAvatar = (ImageView) rootView.findViewById(R.id.profile_avatar_imageview);
+        mProfileAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showdialogAvatar();
+            }
+        });
+
+        mSaveButton = (Button) rootView.findViewById(R.id.btn_save);
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -132,6 +182,34 @@ public class MyPageFragment extends MainBaseFragment {
                 loadRefreshData();
             }
         });
+    }
+
+    private void showdialogAvatar() {
+        DialogUtil.showChooseDialog(mAct, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            if (takePictureIntent.resolveActivity(mAct.getPackageManager()) != null) {
+                                startActivityForResult(takePictureIntent, REQUEST_CODE_AVATAR_IMAGE_CAPTURE);
+                            }
+                        } else if (which == DialogInterface.BUTTON_NEGATIVE) {
+                            Intent intent = new Intent();
+                            intent.setType("*/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(intent, REQUEST_CODE_PICK_AVATAR_FILE);
+                        }
+                    }
+                },
+                new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                    }
+                },
+                getString(R.string.update_profile_picture),
+                getString(R.string.pick_a_file),
+                getString(R.string.take_a_picture)
+        );
     }
 
     private void showImagePickerDialog() {
@@ -145,7 +223,7 @@ public class MyPageFragment extends MainBaseFragment {
                             }
                         } else if (which == DialogInterface.BUTTON_NEGATIVE) {
                             Intent intent = new Intent();
-                            intent.setType("image/*");
+                            intent.setType("*/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
                         }
@@ -177,6 +255,25 @@ public class MyPageFragment extends MainBaseFragment {
             i.putExtra(PostActivity.EXTRA_IMAGE_PATH, uri.toString());
             startActivity(i);
         }
+
+        else if (requestCode == REQUEST_CODE_AVATAR_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+
+            int userId = LoginManager.getInstance().getUserId();
+            String path = FileUtils.getPath(getActivity(), uri);
+
+            UploadPhotoRequestData requestData = new UploadPhotoRequestData(userId, path);
+            DataCenter.getInstance().doRequest(requestData);
+
+        } else if (requestCode == REQUEST_CODE_PICK_AVATAR_FILE && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+
+            int userId = LoginManager.getInstance().getUserId();
+            String path = FileUtils.getPath(getActivity(), uri);
+
+            UploadPhotoRequestData requestData = new UploadPhotoRequestData(userId, path);
+            DataCenter.getInstance().doRequest(requestData);
+        }
     }
 
     @Override
@@ -187,7 +284,7 @@ public class MyPageFragment extends MainBaseFragment {
             if (mPostAdapter == null) {
                 mPostAdapter = new PostAdapter(mAct);
                 mPostAdapter.setData(mPostData);
-//                mPostAdapter.setLi
+                mPostAdapter.setListener(onPostItemClickListener);
             }
             if (mPostImageAdapter == null) {
                 mPostImageAdapter = new PostImageAdapter(mAct);
@@ -202,13 +299,26 @@ public class MyPageFragment extends MainBaseFragment {
             mProgressBar.setVisibility(View.GONE);
         }
 
+        int userId = LoginManager.getInstance().getUserId();
+        loadAvatar(userId);
+
+
     }
 
     PostImageAdapter.OnImageItemClickListener onImageItemClickListener = new PostImageAdapter.OnImageItemClickListener() {
         @Override
         public void onItemClick(PostModel post) {
             Intent i = new Intent(mAct, PostDetailActivity.class);
-            i.putExtra(PostDetailActivity.EXTRA_POST_ID, String.valueOf(post.id));
+            i.putExtra(PostDetailActivity.EXTRA_POST_ID, post.id);
+            startActivity(i);
+        }
+    };
+
+    PostAdapter.OnPostItemClickListener onPostItemClickListener = new PostAdapter.OnPostItemClickListener() {
+        @Override
+        public void onItemClick(PostModel post) {
+            Intent i = new Intent(mAct, PostDetailActivity.class);
+            i.putExtra(PostDetailActivity.EXTRA_POST_ID, post.id);
             startActivity(i);
         }
     };
@@ -236,7 +346,7 @@ public class MyPageFragment extends MainBaseFragment {
         if (mPostAdapter == null) {
             mPostAdapter = new PostAdapter(mAct);
             mContentListView.setAdapter(mPostAdapter);
-//            mPostAdapter.setListener()
+            mPostAdapter.setListener(onPostItemClickListener);
         }
     }
 
@@ -246,6 +356,11 @@ public class MyPageFragment extends MainBaseFragment {
             mContentGridView.setAdapter(mPostImageAdapter);
             mPostImageAdapter.setListener(onImageItemClickListener);
         }
+    }
+
+    public void loadAvatar(int id) {
+        ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(id + ""), mAvatarImageView);
+        ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(id + ""), mProfileAvatar);
     }
 
 
@@ -272,6 +387,8 @@ public class MyPageFragment extends MainBaseFragment {
             mPostImageAdapter.setData(mPostData);
         } else if (requestData.getType() == RequestData.TYPE_CREATE_POST) {
             loadRefreshData();
+        } else if (requestData.getType() == RequestData.TYPE_UPLOAD_AVATAR) {
+            loadAvatar(LoginManager.getInstance().getUserId());
         }
     }
 

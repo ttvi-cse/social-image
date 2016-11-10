@@ -27,10 +27,10 @@ public class RESTPostController extends RESTController{
 
     private static final String LIST_POST_PATH = "posts";
     private static final String CREATE_POST_PATH = "posts";
-    private static final String GET_POST_DETAIL_PATH = "posts/%s";
+    private static final String GET_POST_DETAIL_PATH = "posts/%d";
 
-    private static final String LIST_COMMENT_PATH = "posts/%s/comments";
-    private static final String CREATE_COMMENT_PATH = "posts/%s/comments";
+    private static final String LIST_COMMENT_PATH = "posts/%d/comments";
+    private static final String CREATE_COMMENT_PATH = "posts/%d/comments";
 
 
     @Override
@@ -63,7 +63,7 @@ public class RESTPostController extends RESTController{
             case RequestData.TYPE_GET_POST_DETAIL:
                 GetPostDetailRequestData gpdRequest = (GetPostDetailRequestData) requestData;
 
-                String post_id = gpdRequest.getPostId();
+                int post_id = gpdRequest.getPostId();
 
                 url = createURL(String.format(GET_POST_DETAIL_PATH, post_id));
                 doHTTPRequest(
@@ -91,7 +91,7 @@ public class RESTPostController extends RESTController{
 
                 url = createURL(String.format(CREATE_COMMENT_PATH, post_id));
                 doHTTPRequest(
-                        createURLConnection(url, RESTController.METHOD_GET, "application/json"),
+                        createURLConnection(url, RESTController.METHOD_POST, "application/json"),
                         requestData,
                         new TypeToken<ResponseData<CommentModel>>(){}
                 );

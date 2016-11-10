@@ -10,14 +10,14 @@ public class ListCommentRequestData extends RequestData {
 
     private static final String KEY_POST_ID = "post_id";
 
-    public ListCommentRequestData(String postId) {
+    public ListCommentRequestData(int postId) {
         super(TYPE_LIST_COMMENTS);
 
         addParam(KEY_POST_ID, postId);
     }
 
-    public String getPostId() {
-        return (String) getValue(KEY_POST_ID);
+    public int getPostId() {
+        return (int) getValue(KEY_POST_ID);
     }
 
     @Override

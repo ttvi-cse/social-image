@@ -79,43 +79,42 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-//                String userName = mUsernameEditText.getText()
-//                        .toString();
-//                String password = mPasswordEditText.getText()
-//                        .toString();
-//
-//                if (userName.length() == 0) {
-//                    DialogUtil.showToastMessage(LoginActivity.this,
-//                            R.string.error_require_username);
-//                    mUsernameEditText.requestFocus();
-//                } else if (password.length() == 0) {
-//                    DialogUtil.showToastMessage(LoginActivity.this,
-//                            R.string.error_require_password);
-//                    mPasswordEditText.requestFocus();
-//                } else if (userName.length() > 0 && password.length() > 0) {
-//                    if (!hasConnection()) {
-//                        if (LoginManager.getInstance()
-//                                .getLoginModel() != null
-//                                && userName.equals(LoginManager.getInstance()
-//                                .getUserNameLogin())
-//                                && password.equals(LoginManager.getInstance()
-//                                .getPasswordLogin())) {
-//                            openMainActivity(false);
-//                            return;
-//                        } else {
-//                            DialogUtil.showToastMessage(LoginActivity.this, R.string.error_login_failed);
-////                            DialogUtil.showAlertDialog(LoginActivity.this,
-////                                                       getString(R.string.error_no_internet));
-//                            return;
-//                        }
-//                    }
-//                    mProgressDialog.show();
-//                    LoginRequestData requestData = new LoginRequestData(userName,
-//                            password);
-//                    DataCenter.getInstance()
-//                            .doRequest(requestData);
-//                }
-                openMainActivity(true);
+                String userName = mUsernameEditText.getText()
+                        .toString();
+                String password = mPasswordEditText.getText()
+                        .toString();
+
+                if (userName.length() == 0) {
+                    DialogUtil.showToastMessage(LoginActivity.this,
+                            R.string.error_require_username);
+                    mUsernameEditText.requestFocus();
+                } else if (password.length() == 0) {
+                    DialogUtil.showToastMessage(LoginActivity.this,
+                            R.string.error_require_password);
+                    mPasswordEditText.requestFocus();
+                } else if (userName.length() > 0 && password.length() > 0) {
+                    if (!hasConnection()) {
+                        if (LoginManager.getInstance()
+                                .getLoginModel() != null
+                                && userName.equals(LoginManager.getInstance()
+                                .getUserNameLogin())
+                                && password.equals(LoginManager.getInstance()
+                                .getPasswordLogin())) {
+                            openMainActivity(false);
+                            return;
+                        } else {
+                            DialogUtil.showToastMessage(LoginActivity.this, R.string.error_login_failed);
+//                            DialogUtil.showAlertDialog(LoginActivity.this,
+//                                                       getString(R.string.error_no_internet));
+                            return;
+                        }
+                    }
+                    mProgressDialog.show();
+                    LoginRequestData requestData = new LoginRequestData(userName,
+                            password);
+                    DataCenter.getInstance()
+                            .doRequest(requestData);
+                }
             }
         });
 

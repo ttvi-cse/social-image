@@ -248,13 +248,18 @@ public class RESTController implements DataController {
         DataCenter.getInstance().fireResponseCallback(reqData, resData, false);
     }
 
-    protected void doHTTPRequestUploadPhoto(HttpURLConnection conn, RequestData reqData, TypeToken type, Bitmap bitmap) {
+    protected void doHTTPRequestUploadPhoto(HttpURLConnection conn, RequestData reqData, TypeToken type, String path) {
         ResponseData resData;
 
         try {
+            File selectedFile = new File(path);
+            if (!selectedFile.isFile()) {
+                return;
+            }
 
             String attachmentName = "avatar";
-            String attachmentFileName = "avatar.jpg";
+            String[] parts = path.split("/");
+            String attachmentFileName = parts[parts.length -1];
             String crlf = "\r\n";
             String twoHyphens = "--";
             String boundary = "*****";
@@ -264,35 +269,43 @@ public class RESTController implements DataController {
             conn.setUseCaches(false);
             conn.setDoOutput(true);
 
+            String jsonData = reqData.toJSONString();
+            if (jsonData != null) {
+                Log.i(TAG, "REQUEST_PARAMS: " + jsonData);
+            }
+
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Connection", "Keep-Alive");
             conn.setRequestProperty("Cache-Control", "no-cache");
             conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
 
-            // Starts the query
-            conn.connect();
-
             DataOutputStream request = new DataOutputStream(conn.getOutputStream());
 
+            /*file*/
             request.writeBytes(twoHyphens + boundary + crlf);
             request.writeBytes("Content-Disposition: form-data; name=\"" + attachmentName + "\";filename=\"" +
                     attachmentFileName + "\"" + crlf);
             request.writeBytes(crlf);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // begin write file's byte
+            FileInputStream fileInputStream = new FileInputStream(selectedFile);
+            int bytesRead,bytesAvailable,bufferSize;
+            byte[] buffer;
+            int maxBufferSize = 1 * 1024 * 1024;
 
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable,maxBufferSize);
+            buffer = new byte[bufferSize];
 
-//            byte[] pixels = new byte[bitmap.getWidth() * bitmap.getHeight()];
-//            for (int i = 0; i < bitmap.getWidth(); ++i) {
-//                for (int j = 0; j < bitmap.getHeight(); ++j) {
-//                    //we're interested only in the MSB of the first byte,
-//                    //since the other 3 bytes are identical for B&W images
-//                    pixels[i + j] = (byte) ((bitmap.getPixel(i, j) & 0x80) >> 7);
-//                }
-//            }
+            bytesRead = fileInputStream.read(buffer,0,bufferSize);
 
-            request.write(baos.toByteArray());
+            while (bytesRead > 0){
+                request.write(buffer,0,bufferSize);
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable,maxBufferSize);
+                bytesRead = fileInputStream.read(buffer,0,bufferSize);
+            }
+            // end write file's byte
 
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
@@ -315,20 +328,97 @@ public class RESTController implements DataController {
 
                 resData.setReturnCode(ResponseData.RETURN_OK);
 
-//                if(resData.getError() == null)
-//                    resData.setReturnCode(ResponseData.RETURN_OK);
-//                else
-//                    resData.setReturnCode(ResponseData.ERROR_DATA_INVALID);
             } else {
                 resData = new ResponseData();
                 resData.setReturnCode(response);
+                try {
+                    String message = "";
+                    InputStream is = conn.getErrorStream();
+                    if(null != is){
+                        String contentAsString = readIt(is);
+
+                        if(null != contentAsString && !contentAsString.isEmpty()){
+                            try {
+                                /*going to update*/
+                                JSONObject jsonObject = new JSONObject(contentAsString);
+                                Log.e(TAG, "RESPONSE_STRING: " + contentAsString);
+                                if(null != jsonObject && jsonObject.length() > 0
+                                        && jsonObject.has("error")){
+                                    JSONObject errorObj = jsonObject.getJSONObject("error");
+                                    Object obj = errorObj.get("message");
+                                    if (obj instanceof JSONObject) {
+                                        message = errorObj.getJSONObject("message").getString("message");
+                                    } else if (obj instanceof String) {
+                                        message = errorObj.getString("message");
+                                    } else {
+                                        message = "Not handled message";
+                                    }
+                                }
+                                /*end going to update*/
+                            }
+                            catch (JsonSyntaxException ex){
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    resData.setReturnCode(ResponseData.ERROR_NOT_CONNECTION);
+                    if(!message.isEmpty()){
+                        resData.setErrorMessage(message);
+                    }
+                }
+                catch (Exception ex){
+                    resData.setReturnCode(ResponseData.ERROR_NOT_CONNECTION);
+                }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
             resData = new ResponseData();
-            resData.setReturnCode(ResponseData.ERROR_NOT_CONNECTION);
-        } catch (JsonSyntaxException e) {
+            try {
+                if(reqData.getType() == RequestData.TYPE_LOGIN && conn.getResponseCode() == 401){
+                    String message = "";
+                    InputStream is = conn.getErrorStream();
+                    if(null != is){
+                        String contentAsString = readIt(is);
+                        if(null != contentAsString && !contentAsString.isEmpty()){
+                            try {
+                                /*going to update*/
+                                JSONObject jsonObject = new JSONObject(contentAsString);
+                                Log.e(TAG, "RESPONSE_STRING: " + contentAsString);
+                                if(null != jsonObject && jsonObject.length() > 0
+                                        && jsonObject.has("error")){
+                                    JSONObject errorObj = jsonObject.getJSONObject("error");
+                                    Object obj = errorObj.get("message");
+                                    if (obj instanceof JSONObject) {
+                                        message = errorObj.getJSONObject("message").getString("message");
+                                    } else if (obj instanceof String) {
+                                        message = errorObj.getString("message");
+                                    } else {
+                                        message = "Not handled message";
+                                    }
+                                }
+                                /*end going to update*/
+                            }
+                            catch (JsonSyntaxException ex){
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    resData.setReturnCode(ResponseData.ERROR_UNAUTHORIZED);
+                    if(!message.isEmpty()){
+                        resData.setErrorMessage(message);
+                    }
+                }
+                else {
+                    resData.setReturnCode(ResponseData.ERROR_NOT_CONNECTION);
+                }
+            }
+            catch (Exception ex){
+                resData.setReturnCode(ResponseData.ERROR_NOT_CONNECTION);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             resData = new ResponseData();
             resData.setReturnCode(ResponseData.ERROR_DATA_INVALID);

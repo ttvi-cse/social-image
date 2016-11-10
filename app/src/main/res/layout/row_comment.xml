@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/avatar_imageview"
-        android:layout_width="104dp"
-        android:layout_height="104dp"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/img_no_image"/>
+        android:padding="@dimen/margin_4"
+        android:src="@drawable/ic_avatar"/>
 
     <TextView
         android:id="@+id/content_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/avatar_imageview"/>
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/avatar_imageview"
+        android:layout_marginLeft="@dimen/margin_4"
+        android:text="Medium Text"
+        android:textSize="15sp"
+        android:textColor="@color/text_grey"/>
 
     <TextView
         android:id="@+id/time_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/content_text"
-        android:layout_toRightOf="@id/avatar_imageview"/>
+        android:layout_alignLeft="@id/content_text"
+        android:textSize="15sp"
+        android:textColor="#666"
+        android:text="Medium Text"/>
 
 </RelativeLayout>

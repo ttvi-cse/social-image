@@ -26,6 +26,8 @@ public abstract class RequestData {
     public static final int TYPE_LIKE_POST = 10;
     public static final int TYPE_RATE_POST = 11;
 
+    public static final int TYPE_UPLOAD_AVATAR = 13;
+
     protected int mType;
 
     private HashMap<String, Object> mEventMap = new HashMap<>();

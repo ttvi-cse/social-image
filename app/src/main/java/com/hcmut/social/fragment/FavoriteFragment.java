@@ -8,7 +8,6 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.hcmut.social.R;
-import com.hcmut.social.adapter.ImageAdapter;
 import com.hcmut.social.controller.controllerdata.RequestData;
 import com.hcmut.social.controller.controllerdata.ResponseData;
 
@@ -40,7 +39,6 @@ public class FavoriteFragment extends MainBaseFragment{
     @Override
     protected void initView(View rootView, LayoutInflater inflater) {
 //        mContentGridView = (GridView) rootView.findViewById(R.id.content_grid);
-//        mContentGridView.setAdapter(new ImageAdapter(getActivity()));
 //
 //        mContentGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            public void onItemClick(AdapterView<?> parent, View v,

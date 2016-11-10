@@ -58,9 +58,13 @@
     <string name="choise_file">Choise your file resource: </string>
     <string name="pick_a_file">Pick a file</string>
     <string name="take_a_picture">Take a picture</string>
+    <string name="update_profile_picture">Update Profile Picture</string>
+
 
     <!--Post detail-->
     <string name="post_detail">Post detail</string>
+    <string name="change_profile_photo">Change Profile Photo</string>
+    <string name="save">Save</string>
 
 </resources>
 

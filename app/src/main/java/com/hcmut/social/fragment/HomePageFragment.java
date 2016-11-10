@@ -104,7 +104,7 @@ public class HomePageFragment extends MainBaseFragment {
         @Override
         public void onItemClick(PostModel post) {
             Intent i = new Intent(mAct, PostDetailActivity.class);
-            i.putExtra(PostDetailActivity.EXTRA_POST_ID, String.valueOf(post.id));
+            i.putExtra(PostDetailActivity.EXTRA_POST_ID, post.id);
             startActivity(i);
         }
     };

@@ -55,9 +55,6 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/sliding_menu_padding_left"
-        android:layout_marginRight="@dimen/sliding_menu_padding_left"
-        android:layout_marginTop="@dimen/sliding_menu_padding_left"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -80,8 +77,7 @@
             style="@style/send_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_marginLeft="@dimen/sliding_menu_padding_left"/>
+            android:visibility="visible" />
         `
     </LinearLayout>
 </LinearLayout>

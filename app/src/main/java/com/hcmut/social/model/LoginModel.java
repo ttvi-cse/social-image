@@ -9,21 +9,15 @@ import com.google.gson.annotations.SerializedName;
 public class LoginModel extends DataModel {
 
 //    "id": 1,
-//    "username": "ttvi",
-//    "email": "ttvicse@gmail.com",
-//    "first_name": null,
+//    "username": "admin",
+//    "email": "admin@apollo.com",
+//    "first_name": "Admin",
 //    "last_name": null,
-//    "name_title": null,
 //    "gender": 1,
-//    "type_id": 1,
-//    "job_title": null,
-//    "organization": null,
-//    "summary": null,
-//    "token": null,
-//    "expiry_in": 0,
 //    "remember_token": null,
-//    "created_at": "2016-10-18 04:47:42",
-//    "updated_at": "2016-10-18 04:47:42"
+//    "created_at": "",
+//    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC9hcGlcL3VzZXJcL2xvZ2luIiwiaWF0IjoiMTQ3ODgxMTA4OSIsImV4cCI6IjE0ODAwMjA2ODkiLCJuYmYiOiIxNDc4ODExMDg5IiwianRpIjoiNTRiYTYwMWViNThhZmM4MTI5NDViNzE1OTcyYzhlN2YifQ.ZWRhMTI3ZTdlODNkNjQ5ODhkY2NhNjZmY2M3NzQ5MjcwNTljOWZiYzZiZTliMTYxNDE4YzJmZTIxN2M0NWQ2NA",
+//    "expiry_in": 20160
 
     @SerializedName("id")
     public int id;
@@ -40,23 +34,8 @@ public class LoginModel extends DataModel {
     @SerializedName("last_name")
     public String last_name;
 
-    @SerializedName("name_title")
-    public String name_title;
-
     @SerializedName("gender")
     public int gender;
-
-    @SerializedName("type_id")
-    public String type_id;
-
-    @SerializedName("job_title")
-    public String job_title;
-
-    @SerializedName("organization")
-    public String organization;
-
-    @SerializedName("summary")
-    public String summary;
 
     @SerializedName("token")
     public String token;

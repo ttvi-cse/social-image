@@ -2,7 +2,10 @@ package com.hcmut.social.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import com.facebook.stetho.inspector.protocol.module.Network;
 import com.hcmut.social.R;
 import com.hcmut.social.adapter.CommentAdapter;
+import com.hcmut.social.controller.controllerdata.CreateComentRequestData;
 import com.hcmut.social.controller.controllerdata.GetPostDetailRequestData;
 import com.hcmut.social.controller.controllerdata.ListCommentRequestData;
 import com.hcmut.social.controller.controllerdata.RequestData;
@@ -44,11 +48,14 @@ public class PostDetailActivity extends BaseActivity {
 
     ListView mCommentListView;
 
+    EditText mCommentEditText;
+    Button mSendButton;
+
 //    SwipeRefreshLayout mSwipeRefreshLayout;
     private List<CommentModel> mCommentData;
     private CommentAdapter mCommentAdapter;
     private PostModel mPostData;
-    private String mPostID;
+    private int mPostID;
     private boolean isLoading = false;
 
     @Override
@@ -77,9 +84,24 @@ public class PostDetailActivity extends BaseActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mCommentListView = (ListView) findViewById(R.id.comment_listview);
 
-        if (getIntent().getStringExtra(EXTRA_POST_ID) != null)  {
-            mPostID = getIntent().getStringExtra(EXTRA_POST_ID);
-        }
+        mCommentEditText = (EditText) findViewById(R.id.comment_edittext);
+        mSendButton = (Button) findViewById(R.id.send_button);
+
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = mCommentEditText.getText().toString();
+
+                if (TextUtils.isEmpty(content))
+                    return;
+
+                CreateComentRequestData requestData = new CreateComentRequestData(mPostID, content);
+                DataCenter.getInstance().doRequest(requestData);
+
+            }
+        });
+
+        mPostID = getIntent().getIntExtra(EXTRA_POST_ID, -1);
 
     }
 
@@ -91,7 +113,7 @@ public class PostDetailActivity extends BaseActivity {
     }
 
     private void loadData() {
-        if (mPostID == null) {
+        if (mPostID == -1) {
             return;
         }
 
@@ -143,6 +165,9 @@ public class PostDetailActivity extends BaseActivity {
 
 //            ImageLoader.getInstance().displayImage(mAvatarImageView);
 //            mUsernameTextView.setText();
+
+            mPostData = model;
+
             ImageLoader.getInstance().displayImage(model.thumb, mContentImageView);
             mLikeCountTextView.setText(model.like_count+"");
             mViewCountTextView.setText(model.view_count+"");
@@ -159,6 +184,16 @@ public class PostDetailActivity extends BaseActivity {
             mCommentAdapter.setData(mCommentData);
 
         } else if (requestData.getType() == RequestData.TYPE_CREATE_COMMENT) {
+            ResponseData<CommentModel> resData = responseData;
+
+            CommentModel model = resData.getData();
+
+            newComentAdapter();
+
+            mCommentData.add(model);
+            mCommentAdapter.setData(mCommentData);
+
+            mCommentEditText.setText("");
 
         } else if (requestData.getType() == RequestData.TYPE_LIKE_POST) {
 

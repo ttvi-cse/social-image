@@ -48,16 +48,4 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return PAGE_COUNT;
     }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        // Generate title based on item position
-        tabTitles = new String[] {
-                context.getString(R.string.home_page),
-                context.getString(R.string.search),
-                context.getString(R.string.favorite),
-                context.getString(R.string.my_page),
-        };
-        return tabTitles[position];
-    }
 }

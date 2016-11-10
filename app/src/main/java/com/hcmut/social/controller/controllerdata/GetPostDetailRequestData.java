@@ -10,14 +10,14 @@ public class GetPostDetailRequestData extends RequestData {
 
     private static final String KEY_POST_ID = "post_id";
 
-    public GetPostDetailRequestData(String postId) {
+    public GetPostDetailRequestData(int postId) {
         super(TYPE_GET_POST_DETAIL);
 
         addParam(KEY_POST_ID, postId);
     }
 
-    public String getPostId() {
-        return (String) getValue(KEY_POST_ID);
+    public int getPostId() {
+        return (int) getValue(KEY_POST_ID);
     }
 
     @Override
