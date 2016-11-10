@@ -3,6 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:actionBarTabBarStyle">@style/TabBar</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="TabBar" parent="@style/Widget.AppCompat.ActionBar.TabBar">
+        <item name="android:background">#ffffff</item>
     </style>
 
     <style name="Theme.Transparent" parent="AppTheme">

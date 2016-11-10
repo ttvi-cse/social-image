@@ -16,7 +16,8 @@
     <string name="error_not_connection">Error while connecting to server. Trying again to reconnect</string>
 
     <!--Navigation-->
-    <string name="home_page">Hoome page</string>
+    <string name="home_page">Home page</string>
+    <string name="home_page_v1">Home</string>
     <string name="search">Search</string>
     <string name="favorite">Favorite</string>
     <string name="my_page">My page</string>

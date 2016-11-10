@@ -1,13 +1,15 @@
 package com.hcmut.social.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.List;
 
 /**
  * Created by John on 10/6/2016.
  */
-
+@DatabaseTable(tableName = "profile")
 public class MyProfileModel extends DataModel {
 
     //    "id": 1,
@@ -26,7 +28,7 @@ public class MyProfileModel extends DataModel {
 //    "remember_token": null,
 //    "created_at": "2016-10-18 04:47:42",
 //    "updated_at": "2016-10-18 04:47:42"
-
+    @DatabaseField(id = true)
     @SerializedName("id")
     public int id;
 
