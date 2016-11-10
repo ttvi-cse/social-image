@@ -82,7 +82,7 @@ public class PostImageAdapter extends BaseSocialAdapter {
                 listener.onItemClick(mData.get(position));
             }
         });
-        ImageLoader.getInstance().displayImage(mData.get(position).img_url, imageView, mOpts);
+        ImageLoader.getInstance().displayImage(mData.get(position).thumb, imageView, mOpts);
         return imageView;
     }
 }

@@ -32,22 +32,13 @@ public class RESTPostController extends RESTController{
     private static final String LIST_COMMENT_PATH = "posts/%s/comments";
     private static final String CREATE_COMMENT_PATH = "posts/%s/comments";
 
-    private static final String LIKE_POST_PATH = "posts/%s/like";
-    private static final String RATE_POST_PATH = "posts/%s/rate";
-
 
     @Override
     public void doRequest(RequestData requestData) throws IOException {
         String url="";
         switch (requestData.getType()) {
             case RequestData.TYPE_LIST_POSTS:
-                ListPostRequestData lpRequest = (ListPostRequestData) requestData;
-                String userId = lpRequest.getUserId();
-                if (userId != null && !TextUtils.isEmpty(userId)) {
-                    url = createURL(LIST_POST_PATH) + "?user_id=" + lpRequest.getUserId();
-                } else {
-                    url = createURL(LIST_POST_PATH);
-                }
+                url = createURL(LIST_POST_PATH);
 
                 doHTTPRequest(
                         createURLConnection(url, RESTController.METHOD_GET, "application/json"),
@@ -57,7 +48,6 @@ public class RESTPostController extends RESTController{
                 break;
             case RequestData.TYPE_CREATE_POST:
                 CreatePostRequestData cpRequest = (CreatePostRequestData) requestData;
-                userId = cpRequest.getUserId();
                 String path = cpRequest.getImageUri();
                 String content  = cpRequest.getContent();
 
@@ -66,7 +56,6 @@ public class RESTPostController extends RESTController{
                         createURLConnection(url, RESTController.METHOD_POST, "application/json"),
                         requestData,
                         new TypeToken<ResponseData<Object>>(){},
-                        userId,
                         path,
                         content
                 );
@@ -105,30 +94,6 @@ public class RESTPostController extends RESTController{
                         createURLConnection(url, RESTController.METHOD_GET, "application/json"),
                         requestData,
                         new TypeToken<ResponseData<CommentModel>>(){}
-                );
-                break;
-            case RequestData.TYPE_LIKE_POST:
-                LikePostRequestData lipRequest = (LikePostRequestData) requestData;
-
-                post_id = lipRequest.getPostId();
-
-                url = createURL(LIKE_POST_PATH);
-                doHTTPRequest(
-                        createURLConnection(url, RESTController.METHOD_GET, "application/json"),
-                        requestData,
-                        new TypeToken<ResponseData<Object>>(){}
-                );
-                break;
-            case RequestData.TYPE_RATE_POST:
-                RatePostRequestData rpRequest = (RatePostRequestData) requestData;
-
-                post_id = rpRequest.getPostId();
-
-                url = createURL(RATE_POST_PATH);
-                doHTTPRequest(
-                        createURLConnection(url, RESTController.METHOD_GET, "application/json"),
-                        requestData,
-                        new TypeToken<ResponseData<Object>>(){}
                 );
                 break;
 

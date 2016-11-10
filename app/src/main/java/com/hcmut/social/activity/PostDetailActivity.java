@@ -143,7 +143,7 @@ public class PostDetailActivity extends BaseActivity {
 
 //            ImageLoader.getInstance().displayImage(mAvatarImageView);
 //            mUsernameTextView.setText();
-            ImageLoader.getInstance().displayImage(model.img_url, mContentImageView);
+            ImageLoader.getInstance().displayImage(model.thumb, mContentImageView);
             mLikeCountTextView.setText(model.like_count+"");
             mViewCountTextView.setText(model.view_count+"");
             mRatingBar.setRating(model.rate_count);

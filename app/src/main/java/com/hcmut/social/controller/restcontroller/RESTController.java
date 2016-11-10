@@ -340,7 +340,7 @@ public class RESTController implements DataController {
     }
 
     protected void doHTTPRequestUploadFile(HttpURLConnection conn, RequestData reqData,
-                                           TypeToken type, String userId, String path, String content) {
+                                           TypeToken type, String path, String content) {
         ResponseData resData;
 
         try {
@@ -399,14 +399,6 @@ public class RESTController implements DataController {
             }
             // end write file's byte
 
-            request.writeBytes(crlf);
-
-            /*folder*/
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"" + "user_id" + "\"" + crlf);
-            request.writeBytes(crlf);
-
-            request.writeBytes(String.valueOf(userId));
             request.writeBytes(crlf);
 
             /*preview_images*/

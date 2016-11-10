@@ -20,7 +20,7 @@ android {
         def VERSION_NAME = defaultConfig.versionName.replace(".", "_") + "__" + defaultConfig.versionCode
 
         debug {
-            buildConfigField "String", "ROOT_DOMAIN", "\"http://192.168.1.111:8000/\""
+            buildConfigField "String", "ROOT_DOMAIN", "\"http://192.168.1.124:8000/\""
             buildConfigField "String", "USER_NAME", "\"admin\""
             buildConfigField "String", "PASSWORD", "\"123456\""
             minifyEnabled false
@@ -73,6 +73,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
+
     /*For REST API*/
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
 

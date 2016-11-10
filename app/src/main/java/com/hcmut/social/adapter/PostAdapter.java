@@ -108,8 +108,8 @@ public class PostAdapter extends BaseSocialAdapter {
         public void bindingData() {
             tv_like_count.setText(model.like_count+"");
             tv_view_count.setText(model.view_count+"");
-//            rating_bar.setRating(model.rate_count);
-            ImageLoader.getInstance().displayImage(model.img_url, img_content, mOpts);
+            rating_bar.setRating(model.rating_average);
+            ImageLoader.getInstance().displayImage(model.thumb, img_content, mOpts);
 
         }
     }

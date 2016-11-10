@@ -34,7 +34,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <ListView
             android:id="@+id/comment_listview"
@@ -50,4 +51,37 @@
             android:layout_gravity="center" />
 
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sliding_menu_padding_left"
+        android:layout_marginRight="@dimen/sliding_menu_padding_left"
+        android:layout_marginTop="@dimen/sliding_menu_padding_left"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/comment_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:layout_weight="1"
+            android:background="@drawable/bg_comment_edittext"
+            android:inputType="textMultiLine"
+            android:maxHeight="400dp"
+            android:maxLength="3000"
+            android:minHeight="42dp"
+            android:padding="@dimen/edt_comment_padding"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/send_button"
+            style="@style/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_marginLeft="@dimen/sliding_menu_padding_left"/>
+        `
+    </LinearLayout>
 </LinearLayout>

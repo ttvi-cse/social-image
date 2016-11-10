@@ -138,17 +138,15 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onLoadSuccessful(RequestData requestData, ResponseData responseData) {
+
         if(responseData.getError() != null) {
             onLoadFail(requestData, responseData);
             return;
         }
 
-        if (requestData.getType() == RequestData.TYPE_LOGIN) {
-            try {
-                mProgressDialog.dismiss();
-            } catch (Exception e) {
-            }
+        mProgressDialog.dismiss();
 
+        if (requestData.getType() == RequestData.TYPE_LOGIN) {
 //            LoginManager.getInstance().setUserInfo();
             openMainActivity(false);
         }
@@ -156,10 +154,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onLoadFail(RequestData requestData, ResponseData responseData) {
-        if(requestData.getType() == RequestData.TYPE_LOGIN) {
-            try {
-                mProgressDialog.dismiss();
-            } catch (Exception e) {}
-        }
+        mProgressDialog.dismiss();
     }
 }
