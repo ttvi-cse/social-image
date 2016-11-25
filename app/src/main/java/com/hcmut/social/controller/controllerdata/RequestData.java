@@ -23,8 +23,7 @@ public abstract class RequestData {
     public static final int TYPE_LIST_COMMENTS = 8;
     public static final int TYPE_CREATE_COMMENT = 9;
 
-    public static final int TYPE_LIKE_POST = 10;
-    public static final int TYPE_RATE_POST = 11;
+    public static final int TYPE_USER_ACTION = 10;
 
     public static final int TYPE_UPLOAD_AVATAR = 13;
 

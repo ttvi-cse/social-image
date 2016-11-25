@@ -61,10 +61,11 @@
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:isIndicator="true"
+            android:isIndicator="false"
             android:layout_alignParentRight="true"
             style="@style/article_rating_bar_27"
             android:numStars="5"
+            android:stepSize="1"
             android:id="@+id/rating_bar" />
     </RelativeLayout>
 

@@ -47,5 +47,5 @@ public class CommentModel extends DataModel {
     public PostModel post;
 
     @SerializedName("created_by_user")
-    MyProfileModel user;
+    public LoginModel createBy;
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hcmut.social.R;
 import com.hcmut.social.model.PostModel;
+import com.hcmut.social.utils.UserUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -115,16 +116,24 @@ public class PostAdapter extends BaseSocialAdapter {
         }
 
         public void bindingData() {
+            /**
+             * avatar, name
+             */
+            ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(model.createBy.id + ""), img_avatar);
+            tv_username.setText(model.createBy.username);
+            ImageLoader.getInstance().displayImage(model.thumb, img_content);
+
+            /**
+             * like, view and share
+             */
+
             tv_like_count.setText(model.like_count+"");
             tv_view_count.setText(model.view_count+"");
             rating_bar.setRating(model.rating_average);
-            ImageLoader.getInstance().displayImage(model.thumb, img_content, mOpts);
-            img_content.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClick(model);
-                }
-            });
+
+            tv_like_count.setClickable(false);
+            rating_bar.setIsIndicator(true);
+
         }
     }
 }

@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.hcmut.social.R;
 import com.hcmut.social.model.CommentModel;
 import com.hcmut.social.model.PostModel;
+import com.hcmut.social.utils.UserUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
 
@@ -34,9 +36,12 @@ public class CommentAdapter extends BaseSocialAdapter {
         super(mContext);
 
         mOpts = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer(6))
+                .showImageOnLoading(R.drawable.ic_avatar)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
+
     }
 
     @Override
@@ -99,7 +104,9 @@ public class CommentAdapter extends BaseSocialAdapter {
         }
 
         public void bindingData() {
-            tv_content.setText(model.content+"");
+            ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(model.createBy.id + ""), img_avatar, mOpts);
+
+            tv_content.setText(String.format("%s: %s", model.createBy.username, model.content));
             tv_time.setText(model.created_at+"");
 
         }

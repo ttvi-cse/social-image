@@ -14,10 +14,21 @@ public class PostModel extends DataModel{
 //    "like_count": 0,
 //    "comment_count": 0,
 //    "rating_count": 0,
-//    "rating_average": "0.0",
+//    "rating_average": "0.0    ",
 //    "created_at": "",
 //    "thumb": "http://192.168.1.124:8000/system/Post/images/000/000/008/large/IMG-1463480750937-V.jpg",
+//    "is_liked": false,
 //    "is_rated": false
+//    "created_by_user": {
+//        "id": 1,
+//        "username": "admin",
+//        "email": "admin@apollo.com",
+//        "first_name": "Admin",
+//        "last_name": null,
+//        "gender": 1,
+//        "remember_token": null,
+//        "created_at": ""
+//    },
 
     @SerializedName("id")
     public int id;
@@ -46,7 +57,13 @@ public class PostModel extends DataModel{
     @SerializedName("thumb")
     public String thumb;
 
+    @SerializedName("is_liked")
+    public boolean is_liked;
+
     @SerializedName("is_rated")
     public boolean is_rated;
+
+    @SerializedName("created_by_user")
+    public LoginModel createBy;
 
 }

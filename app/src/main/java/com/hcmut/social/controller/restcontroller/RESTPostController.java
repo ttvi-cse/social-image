@@ -1,16 +1,12 @@
 package com.hcmut.social.controller.restcontroller;
 
-import android.text.TextUtils;
-
 import com.google.gson.reflect.TypeToken;
 import com.hcmut.social.controller.ControllerCenter;
 import com.hcmut.social.controller.controllerdata.CreateComentRequestData;
 import com.hcmut.social.controller.controllerdata.CreatePostRequestData;
 import com.hcmut.social.controller.controllerdata.GetPostDetailRequestData;
-import com.hcmut.social.controller.controllerdata.LikePostRequestData;
 import com.hcmut.social.controller.controllerdata.ListCommentRequestData;
-import com.hcmut.social.controller.controllerdata.ListPostRequestData;
-import com.hcmut.social.controller.controllerdata.RatePostRequestData;
+import com.hcmut.social.controller.controllerdata.UserActionRequestData;
 import com.hcmut.social.controller.controllerdata.RequestData;
 import com.hcmut.social.controller.controllerdata.ResponseData;
 import com.hcmut.social.model.CommentModel;
@@ -31,6 +27,9 @@ public class RESTPostController extends RESTController{
 
     private static final String LIST_COMMENT_PATH = "posts/%d/comments";
     private static final String CREATE_COMMENT_PATH = "posts/%d/comments";
+
+    private static final String LIKE_POST_PATH = "users/actions";
+    private static final String RATE_POST_PATH = "users/actions";
 
 
     @Override
@@ -96,7 +95,16 @@ public class RESTPostController extends RESTController{
                         new TypeToken<ResponseData<CommentModel>>(){}
                 );
                 break;
+            case RequestData.TYPE_USER_ACTION:
+                UserActionRequestData lpRequest = (UserActionRequestData) requestData;
 
+                url = createURL(LIKE_POST_PATH);
+                doHTTPRequest(
+                        createURLConnection(url, RESTController.METHOD_POST, "application/json"),
+                        requestData,
+                        new TypeToken<ResponseData<Object>>(){}
+                );
+                break;
             default:
                 break;
         }
@@ -109,7 +117,6 @@ public class RESTPostController extends RESTController{
         controllerCenter.addEventHandler(RequestData.TYPE_GET_POST_DETAIL, this);
         controllerCenter.addEventHandler(RequestData.TYPE_LIST_COMMENTS, this);
         controllerCenter.addEventHandler(RequestData.TYPE_CREATE_COMMENT, this);
-        controllerCenter.addEventHandler(RequestData.TYPE_LIKE_POST, this);
-        controllerCenter.addEventHandler(RequestData.TYPE_RATE_POST, this);
+        controllerCenter.addEventHandler(RequestData.TYPE_USER_ACTION, this);
     }
 }

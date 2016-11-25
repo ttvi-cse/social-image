@@ -21,9 +21,12 @@ import com.hcmut.social.controller.controllerdata.GetPostDetailRequestData;
 import com.hcmut.social.controller.controllerdata.ListCommentRequestData;
 import com.hcmut.social.controller.controllerdata.RequestData;
 import com.hcmut.social.controller.controllerdata.ResponseData;
+import com.hcmut.social.controller.controllerdata.UserActionRequestData;
 import com.hcmut.social.datacenter.DataCenter;
 import com.hcmut.social.model.CommentModel;
 import com.hcmut.social.model.PostModel;
+import com.hcmut.social.utils.DialogUtil;
+import com.hcmut.social.utils.UserUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
@@ -78,8 +81,36 @@ public class PostDetailActivity extends BaseActivity {
 
 
         mLikeCountTextView = (TextView) findViewById(R.id.like_count_text);
+        mLikeCountTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPostData.is_liked) {
+                    DialogUtil.showToastMessage(PostDetailActivity.this, getString(R.string.error_post_liked));
+                    return;
+                }
+
+                UserActionRequestData requestData = new UserActionRequestData(
+                        String.valueOf(1),
+                        String.valueOf(mPostData.id),
+                        0
+                );
+                DataCenter.getInstance().doRequest(requestData);
+
+            }
+        });
         mViewCountTextView = (TextView) findViewById(R.id.view_count_text);
         mRatingBar = (RatingBar) findViewById(R.id.rating_bar);
+        mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                UserActionRequestData requestData = new UserActionRequestData(
+                        String.valueOf(2),
+                        String.valueOf(mPostData.id),
+                        (int) rating
+                );
+                DataCenter.getInstance().doRequest(requestData);
+            }
+        });
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mCommentListView = (ListView) findViewById(R.id.comment_listview);
@@ -142,8 +173,7 @@ public class PostDetailActivity extends BaseActivity {
                 RequestData.TYPE_GET_POST_DETAIL,
                 RequestData.TYPE_LIST_COMMENTS,
                 RequestData.TYPE_CREATE_COMMENT,
-                RequestData.TYPE_LIKE_POST,
-                RequestData.TYPE_RATE_POST
+                RequestData.TYPE_USER_ACTION,
         };
     }
 
@@ -163,15 +193,32 @@ public class PostDetailActivity extends BaseActivity {
 
             PostModel model = resData.getData();
 
-//            ImageLoader.getInstance().displayImage(mAvatarImageView);
-//            mUsernameTextView.setText();
-
             mPostData = model;
 
-            ImageLoader.getInstance().displayImage(model.thumb, mContentImageView);
-            mLikeCountTextView.setText(model.like_count+"");
-            mViewCountTextView.setText(model.view_count+"");
-            mRatingBar.setRating(model.rate_count);
+            /**
+             * avatar, name
+             */
+            ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(mPostData.createBy.id + ""), mAvatarImageView);
+            mUsernameTextView.setText(mPostData.createBy.username);
+            ImageLoader.getInstance().displayImage(mPostData.thumb, mContentImageView);
+
+            /**
+             * like, view and share
+             */
+
+            mLikeCountTextView.setText(mPostData.like_count+"");
+            mViewCountTextView.setText(mPostData.view_count+"");
+            mRatingBar.setRating(mPostData.rating_average);
+
+            if (mPostData.is_liked) {
+                mLikeCountTextView.setClickable(false);
+            }
+
+            if (mPostData.is_rated) {
+                mRatingBar.setIsIndicator(true);
+            }
+
+
 
         } else if (requestData.getType() == RequestData.TYPE_LIST_COMMENTS) {
             ResponseData<List<CommentModel>> resData = responseData;
@@ -195,10 +242,18 @@ public class PostDetailActivity extends BaseActivity {
 
             mCommentEditText.setText("");
 
-        } else if (requestData.getType() == RequestData.TYPE_LIKE_POST) {
+        } else if (requestData.getType() == RequestData.TYPE_USER_ACTION) {
+            String actionId = ((UserActionRequestData)requestData).getActionId();
+            if (actionId.equals("1")) {
+                mPostData.like_count++;
+                mPostData.is_liked = true;
 
-        } else if (requestData.getType() == RequestData.TYPE_RATE_POST) {
-
+                mLikeCountTextView.setText(mPostData.like_count + "");
+            } else if (actionId.equals("2")) {
+                // disable rating again
+                mPostData.is_rated = true;
+                mRatingBar.setIsIndicator(true);
+            }
         }
     }
 

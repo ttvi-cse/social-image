@@ -20,7 +20,7 @@ public class ResponseData<T> implements Serializable {
     public static final int ERROR_NOT_CONNECTION = -7;
     public static final int ERROR_DATA_INVALID = -8;
 
-//    Code 401: user unauthorized or token expired.
+//    Code 401: createBy unauthorized or token expired.
 //    Code 404: data not found returnCode.
 //    Code 405: all errors related to method syntax.
 //    Code 500: other returnCode. This returnCode should be attached a returnCode message (ex: {"message": "returnCode message"}).

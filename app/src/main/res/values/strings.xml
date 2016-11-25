@@ -65,6 +65,8 @@
     <string name="post_detail">Post detail</string>
     <string name="change_profile_photo">Change Profile Photo</string>
     <string name="save">Save</string>
+    <string name="error_post_rated">Post is rated!!</string>
+    <string name="error_post_liked">Post is liked!!</string>
 
 </resources>
 
