@@ -359,8 +359,88 @@ public class MyPageFragment extends MainBaseFragment {
     }
 
     public void loadAvatar(int id) {
-        ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(id + ""), mAvatarImageView);
-        ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(id + ""), mProfileAvatar);
+        DisplayImageOptions mOpts = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer(6))
+                .showImageOnLoading(R.drawable.ic_avatar)
+                .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .build();
+
+        ImageLoader.getInstance().displayImage(
+                UserUtil.getAvatarLink(id + ""), mAvatarImageView, mOpts, new ImageLoadingListener() {
+                    boolean cacheFound;
+                    @Override
+                    public void onLoadingStarted(String url, View view) {
+                        List<String> memCache = MemoryCacheUtils.findCacheKeysForImageUri(url, ImageLoader.getInstance().getMemoryCache());
+                        cacheFound = !memCache.isEmpty();
+                        if (!cacheFound) {
+                            File discCache = ImageLoader.getInstance().getDiskCache().get(url);
+                            if (discCache != null) {
+                                cacheFound = discCache.exists();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        if (cacheFound) {
+                            MemoryCacheUtils.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
+                            ImageLoader.getInstance().getDiskCache().remove(imageUri);
+                            ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                        } else {
+                            ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+
+                    }
+                }
+        );
+
+        ImageLoader.getInstance().displayImage(
+                UserUtil.getAvatarLink(id + ""), mProfileAvatar, mOpts, new ImageLoadingListener() {
+                    boolean cacheFound;
+                    @Override
+                    public void onLoadingStarted(String url, View view) {
+                        List<String> memCache = MemoryCacheUtils.findCacheKeysForImageUri(url, ImageLoader.getInstance().getMemoryCache());
+                        cacheFound = !memCache.isEmpty();
+                        if (!cacheFound) {
+                            File discCache = ImageLoader.getInstance().getDiskCache().get(url);
+                            if (discCache != null) {
+                                cacheFound = discCache.exists();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        if (cacheFound) {
+                            MemoryCacheUtils.removeFromCache(imageUri, ImageLoader.getInstance().getMemoryCache());
+                            ImageLoader.getInstance().getDiskCache().remove(imageUri);
+                            ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                        } else {
+                            ImageLoader.getInstance().displayImage(imageUri, (ImageView) view);
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+
+                    }
+                }
+        );
     }
 
 

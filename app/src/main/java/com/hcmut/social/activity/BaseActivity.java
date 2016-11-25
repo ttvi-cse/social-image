@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.inputmethod.InputMethodManager;
 
 import com.hcmut.social.controller.controllerdata.RequestData;
@@ -15,7 +16,7 @@ import com.hcmut.social.utils.DialogUtil;
 
 import de.greenrobot.event.EventBus;
 
-public abstract class BaseActivity extends FragmentActivity implements DataCallback {
+public abstract class BaseActivity extends AppCompatActivity implements DataCallback {
 
     private int[] mEventHandleList;
     public InputMethodManager mInputMethodManager;

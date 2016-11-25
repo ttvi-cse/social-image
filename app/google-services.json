@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "496665922480",
+    "firebase_url": "https://social-image-150608.firebaseio.com",
+    "project_id": "social-image-150608",
+    "storage_bucket": "social-image-150608.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496665922480:android:d2d626fca5c7d02e",
+        "android_client_info": {
+          "package_name": "com.hcmut.social"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "496665922480-9foavqafq2cribn693oq3kd5sp5cjf2u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hcmut.social",
+            "certificate_hash": "B28292093B9B7794F03CDD8CD57019D4AB2B253C"
+          }
+        },
+        {
+          "client_id": "496665922480-kpj7jhnlbm1c3jpuk12sgouipd8f7und.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIzS0F9YwZ-66igSa33rwzAQ7JcS4kKt0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "496665922480-kpj7jhnlbm1c3jpuk12sgouipd8f7und.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -65,7 +65,7 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'com.crittercism:crittercism-android-agent:+'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.google.android.gms:play-services:6.5.87'
+    compile 'com.google.android.gms:play-services:9.8.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'com.facebook.stetho:stetho:1.4.1'
 
@@ -80,5 +80,6 @@ dependencies {
     /*Butter knife*/
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
-
 }
+
+apply plugin: 'com.google.gms.google-services'
