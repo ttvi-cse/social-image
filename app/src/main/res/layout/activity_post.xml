@@ -87,12 +87,26 @@
         android:textSize="@dimen/font_size_18sp"
         android:layout_below="@id/divider_div"/>
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <LinearLayout
+        android:id="@+id/map_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/location_text"/>
+        android:orientation="vertical"
+        android:layout_below="@id/location_text"
+        android:visibility="invisible">
+
+        <AutoCompleteTextView
+            android:id="@+id/edt_location_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -8,8 +8,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,33 +21,27 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
-import com.google.android.gms.location.places.Places;
-
-
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hcmut.social.LoginManager;
 import com.hcmut.social.R;
+import com.hcmut.social.controller.controllerdata.CreateLocationRequestData;
 import com.hcmut.social.controller.controllerdata.CreatePostRequestData;
 import com.hcmut.social.controller.controllerdata.RequestData;
 import com.hcmut.social.controller.controllerdata.ResponseData;
 import com.hcmut.social.datacenter.DataCenter;
+import com.hcmut.social.model.LocationModel;
+import com.hcmut.social.utils.DialogUtil;
 import com.hcmut.social.utils.FileUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,6 +54,8 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 public class PostActivity extends BaseActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
+        GoogleMap.OnMarkerDragListener,
+        GoogleMap.OnMapClickListener,
         LocationListener {
 
     public static final String EXTRA_IMAGE_PATH = "e_path";
@@ -63,14 +63,17 @@ public class PostActivity extends BaseActivity implements OnMapReadyCallback,
     ImageButton mBackButton;
     ImageView mContentImageView;
     EditText mContentEditText;
+    AutoCompleteTextView edtLocationName;
     TextView mLocationTextView;
     TextView mPostTextView;
+    ViewGroup mMapPanel;
 
     private String imagePath;
     private DisplayImageOptions mOpts;
 
     private static final String TAG = PostActivity.class.getSimpleName();
     private GoogleMap mMap;
+    private Marker mMarker;
     private CameraPosition mCameraPosition;
 
     // The entry point to Google Play services, used by the Places API and Fused Location Provider.
@@ -97,6 +100,10 @@ public class PostActivity extends BaseActivity implements OnMapReadyCallback,
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
+
+    private double lat;
+    private double lng;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,21 +133,34 @@ public class PostActivity extends BaseActivity implements OnMapReadyCallback,
         mPostTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String content = mContentEditText.getText().toString();
-                int userId = LoginManager.getInstance().getLoginModel().id;
-//                if (!TextUtils.isEmpty(content)) {
-//                    Dialog
-//                };
+                String title = edtLocationName.getText().toString();
+                if (title == null || TextUtils.isEmpty(title))
+                    return;
 
                 showProgressDialog();
-                CreatePostRequestData requestData = new CreatePostRequestData(String.valueOf(userId), imagePath, content);
+                CreateLocationRequestData requestData = new CreateLocationRequestData(title, lat, lng);
                 DataCenter.getInstance().doRequest(requestData);
+
             }
         });
 
         mContentImageView = (ImageView) findViewById(R.id.content_imageview);
         mContentEditText = (EditText) findViewById(R.id.content_edit_text);
         mLocationTextView = (TextView) findViewById(R.id.location_text);
+        mMapPanel = (ViewGroup) findViewById(R.id.map_panel);
+        mLocationTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMapPanel.setVisibility(View.VISIBLE);
+            }
+        });
+        edtLocationName = (AutoCompleteTextView) findViewById(R.id.edt_location_name);
+        String[] countries = getResources().getStringArray(R.array.countries_array);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries);
+        adapter.notifyDataSetChanged();
+
+        edtLocationName.setAdapter(adapter);
 
         mOpts = new DisplayImageOptions.Builder()
                 .displayer(new RoundedBitmapDisplayer(6))
@@ -212,6 +232,8 @@ public class PostActivity extends BaseActivity implements OnMapReadyCallback,
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
+        lat = mCurrentLocation.getLatitude();
+        lng = mCurrentLocation.getLongitude();
     }
 
     @Override
@@ -221,6 +243,10 @@ public class PostActivity extends BaseActivity implements OnMapReadyCallback,
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
         // Add markers for nearby places.
+        addMarkersToMap(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
+
+        mMap.setOnMarkerDragListener(this);
+        mMap.setOnMapClickListener(this);
 
         // Use a custom info window adapter to handle multiple lines of text in the
         // info window contents.
@@ -262,6 +288,11 @@ public class PostActivity extends BaseActivity implements OnMapReadyCallback,
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
+    }
+
+    private void addMarkersToMap(LatLng latLng) {
+        mMarker = mMap.addMarker(new MarkerOptions()
+                .position(latLng));
     }
 
     private void buildGoogleApiClient() {
@@ -341,7 +372,11 @@ public class PostActivity extends BaseActivity implements OnMapReadyCallback,
 
     @Override
     protected int[] getListEventHandle() {
-        return new int[] {RequestData.TYPE_CREATE_POST};
+        return new int[] {
+                RequestData.TYPE_CREATE_POST,
+                RequestData.TYPE_CREATE_LOCATION,
+                RequestData.TYPE_LIST_LOCATION
+        };
     }
 
     @Override
@@ -355,11 +390,49 @@ public class PostActivity extends BaseActivity implements OnMapReadyCallback,
 
         if (requestData.getType() == RequestData.TYPE_CREATE_POST) {
             finish();
+        } else if (requestData.getType() == RequestData.TYPE_CREATE_LOCATION) {
+
+            LocationModel resData = (LocationModel) responseData.getData();
+
+            String content = mContentEditText.getText().toString();
+            int userId = LoginManager.getInstance().getLoginModel().id;
+
+            showProgressDialog();
+//            if (showLocation) {
+//
+//            } else {
+//
+//            }
+            CreatePostRequestData cpRequest = new CreatePostRequestData(String.valueOf(userId), imagePath, content, resData.id);
+            DataCenter.getInstance().doRequest(cpRequest);
+
+        } else if (requestData.getType() == RequestData.TYPE_LIST_LOCATION) {
+
         }
     }
 
     @Override
     public void onLoadFail(RequestData requestData, ResponseData responseData) {
         hideProgressDialog();
+    }
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+        DialogUtil.showToastMessage(PostActivity.this, "onMarkerDrag.  Current Position: " + marker.getPosition());
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+//        addMarkersToMap(latLng);
     }
 }
