@@ -27,6 +27,8 @@ import com.hcmut.social.utils.DialogUtil;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by John on 10/6/2016.
  */
@@ -138,7 +140,7 @@ public class HomePageFragment extends MainBaseFragment {
     LocationAdapter.OnLocationClickListener onLoationClickListener = new LocationAdapter.OnLocationClickListener() {
         @Override
         public void onLocationClick(LocationModel location) {
-            DialogUtil.showToastMessage(mAct, String.format("lat: %.2f, lng: %.2f", location.lat, location.lng));
+            EventBus.getDefault().post(location);
         }
     };
 

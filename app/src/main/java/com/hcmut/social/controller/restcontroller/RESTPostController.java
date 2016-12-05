@@ -35,11 +35,11 @@ public class RESTPostController extends RESTController{
     private static final String LIKE_POST_PATH = "users/actions";
     private static final String RATE_POST_PATH = "users/actions";
 
-    private static final String CREATE_LOCATION_PATH = "vendors";
-    private static final String LIST_LOCATION_PATH = "vendors";
+    private static final String CREATE_LOCATION_PATH = "locations";
+    private static final String LIST_LOCATION_PATH = "locations";
 
-    private static final String LIST_ALL_POST_PATH = "post/all";
-    private static final String LIST_POST_LOCATION_PATH = "location/%d";
+    private static final String LIST_ALL_POST_PATH = "posts/location/all";
+    private static final String LIST_POST_LOCATION_PATH = "posts/location/%d";
 
 
     @Override

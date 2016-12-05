@@ -7,18 +7,28 @@ import android.view.View;
 
 import com.hcmut.social.R;
 import com.hcmut.social.adapter.PagerAdapter;
+import com.hcmut.social.model.LocationModel;
+
+import de.greenrobot.event.EventBus;
 
 
 public class MainActivity extends BaseActivity {
     private TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        try {
+            EventBus.getDefault().register(this);
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+
         // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(),
                 MainActivity.this));
 
@@ -31,6 +41,20 @@ public class MainActivity extends BaseActivity {
         customViewTabLayout(R.layout.view_favorites_tab, 2);
         customViewTabLayout(R.layout.view_mypage_tab, 3);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            EventBus.getDefault().unregister(this);
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        super.onDestroy();
+    }
+
+    public void onEvent(LocationModel location) {
+        viewPager.setCurrentItem(1, true);
     }
 
     private void customViewTabLayout(int resource, int index) {

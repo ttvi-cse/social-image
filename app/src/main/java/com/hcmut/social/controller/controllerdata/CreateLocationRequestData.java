@@ -7,23 +7,26 @@ import java.io.UnsupportedEncodingException;
  */
 public class CreateLocationRequestData extends RequestData {
 
-    public static final String KEY_TITLE = "title";
-    public static final String KEY_LATITUDE = "lat";
-    public static final String KEY_LONGTITUDE = "lng";
+    public static final String KEY_PLACE_ID = "place_id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_ADDRESS = "address";
+    public static final String KEY_PHONE = "phone";
 
 
-    public CreateLocationRequestData(String title, double lat, double lng) {
+    public CreateLocationRequestData(String place_id, String name, String address, String phone) {
         super(TYPE_CREATE_LOCATION);
 
-        addParam(KEY_TITLE, title);
-        addParam(KEY_LATITUDE, lat);
-        addParam(KEY_LONGTITUDE, lng);
+        addParam(KEY_PLACE_ID, place_id);
+        addParam(KEY_NAME, name);
+        addParam(KEY_ADDRESS, address);
+        addParam(KEY_PHONE, phone);
     }
 
     @Override
     public String toJSONString() throws UnsupportedEncodingException {
-        return "{\"" + KEY_TITLE + "\":\"" + getValue(KEY_TITLE) + "\"" +
-                ", \"" + KEY_LATITUDE + "\":\"" + getValue(KEY_LATITUDE) + "\"" +
-                ", \"" + KEY_LONGTITUDE + "\":\"" + getValue(KEY_LONGTITUDE) + "\"}";
+        return "{\"" + KEY_PLACE_ID + "\":\"" + getValue(KEY_PLACE_ID) + "\"" +
+                ", \"" + KEY_NAME + "\":\"" + getValue(KEY_NAME) + "\"" +
+                ", \"" + KEY_ADDRESS + "\":\"" + getValue(KEY_ADDRESS) + "\"" +
+                ", \"" + KEY_PHONE + "\":\"" + getValue(KEY_PHONE) + "\"}";
     }
 }

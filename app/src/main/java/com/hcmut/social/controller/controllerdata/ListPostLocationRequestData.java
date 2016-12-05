@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
  */
 
 public class ListPostLocationRequestData extends RequestData {
-    private static final String KEY_LOCATION_ID = "user_id";
+    private static final String KEY_LOCATION_ID = "location_id";
 
     public ListPostLocationRequestData(int locationId) {
         super(TYPE_lIST_POST_LOCATION);

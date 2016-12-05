@@ -7,25 +7,36 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class LocationModel extends DataModel {
-//    "id": 1,
-//    "title": "hello",
-//    "lat": 19.123313,
-//    "lng": 29.242434,
-//    "created_at": ""
+//    "place_id": "hello",
+//    "name": "hello",
+//    "address": "hello",
+//    "phone": "hello",
+//    "created_at": "",
+//    "id": 1
 
     @SerializedName("id")
     public int id;
 
-    @SerializedName("title")
-    public String title;
+    @SerializedName("place_id")
+    public String place_id;
 
-    @SerializedName("lat")
-    public double lat;
+    @SerializedName("name")
+    public String name;
 
-    @SerializedName("lng")
-    public double lng;
+    @SerializedName("address")
+    public String address;
+
+    @SerializedName("phone")
+    public String phone;
 
     @SerializedName("created_at")
     public String created_at;
 
+
+    public LocationModel(String place_id, String name, String address, String phone) {
+        this.place_id = place_id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
 }

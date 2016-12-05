@@ -101,7 +101,7 @@ public class LocationAdapter extends BaseSocialAdapter {
         }
 
         public void bindingData() {
-            tvLocation.setText(model.title);
+            tvLocation.setText(model.name);
             tvLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

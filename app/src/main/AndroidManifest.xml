@@ -22,9 +22,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyBFOwZneT9jDMmW_EUpYQEPkdkIZ94sS7Q" />
 
         <activity
             android:name=".activity.LoginActivity"
