@@ -132,7 +132,6 @@
             android:gravity="center"
             android:visibility="gone"/>
 
-
         <include layout="@layout/view_profile" />
 
         <ProgressBar

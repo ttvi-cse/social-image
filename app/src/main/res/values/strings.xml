@@ -74,5 +74,9 @@
     <string name="google_maps_key">AIzaSyDp8BJb5lT_gvN1ovPX6Yq6rJiYzekBuN4</string>
     <string name="enter_your_location_name">Enter your location name</string>
 
+    <string name="suggest_image">Suggest image: </string>
+    <string name="suggest_location">Suggest location: </string>
+    <string name="logout">Logout</string>
+
 </resources>
 

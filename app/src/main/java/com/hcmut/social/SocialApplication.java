@@ -27,6 +27,8 @@ public class SocialApplication extends Application implements DataCenter.ErrorCa
 
     public static int mSelectedClassId = -1;
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();

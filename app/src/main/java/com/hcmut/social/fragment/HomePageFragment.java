@@ -15,11 +15,15 @@ import com.hcmut.social.R;
 import com.hcmut.social.activity.PostDetailActivity;
 import com.hcmut.social.adapter.LocationAdapter;
 import com.hcmut.social.adapter.PostImageAdapter;
+import com.hcmut.social.controller.controllerdata.ListAllPostRequestData;
+import com.hcmut.social.controller.controllerdata.ListLocationRequestData;
 import com.hcmut.social.controller.controllerdata.ListPostRequestData;
 import com.hcmut.social.controller.controllerdata.RequestData;
 import com.hcmut.social.controller.controllerdata.ResponseData;
 import com.hcmut.social.datacenter.DataCenter;
+import com.hcmut.social.model.LocationModel;
 import com.hcmut.social.model.PostModel;
+import com.hcmut.social.utils.DialogUtil;
 
 import java.util.List;
 
@@ -35,6 +39,9 @@ public class HomePageFragment extends MainBaseFragment {
 
     private PostImageAdapter mPostImageAdapter;
     private List<PostModel> mPostData;
+
+    private LocationAdapter mLocationAdapter;
+    private List<LocationModel> mLocationData;
 
     private int page = 1;
     private int mSelectedPos = -1;
@@ -53,7 +60,7 @@ public class HomePageFragment extends MainBaseFragment {
 
     @Override
     protected int[] getListEventHandle() {
-        return new int[] {RequestData.TYPE_LIST_POSTS};
+        return new int[] {RequestData.TYPE_lIST_ALL_POST, RequestData.TYPE_LIST_LOCATION};
     }
 
     @Override
@@ -80,6 +87,7 @@ public class HomePageFragment extends MainBaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                ((MainActivity)getActivity()).showFragment(new FavoriteFragment(), 3);
+
             }
         });
     }
@@ -98,6 +106,24 @@ public class HomePageFragment extends MainBaseFragment {
             mContentGridView.setAdapter(mPostImageAdapter);
             mProgressBar.setVisibility(View.GONE);
         }
+
+        if (mLocationData == null) {
+            loadLocationData();
+        } else {
+            if (mLocationAdapter == null) {
+                mLocationAdapter = new LocationAdapter(mAct);
+                mLocationAdapter.setData(mLocationData);
+                mLocationAdapter.setListener(onLoationClickListener);
+            }
+
+            mLocationListView.setAdapter(mLocationAdapter);
+//            mProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private void loadLocationData() {
+        ListLocationRequestData requestData = new ListLocationRequestData();
+        DataCenter.getInstance().doRequest(requestData);
     }
 
     PostImageAdapter.OnImageItemClickListener onImageItemClickListener = new PostImageAdapter.OnImageItemClickListener() {
@@ -106,6 +132,13 @@ public class HomePageFragment extends MainBaseFragment {
             Intent i = new Intent(mAct, PostDetailActivity.class);
             i.putExtra(PostDetailActivity.EXTRA_POST_ID, post.id);
             startActivity(i);
+        }
+    };
+
+    LocationAdapter.OnLocationClickListener onLoationClickListener = new LocationAdapter.OnLocationClickListener() {
+        @Override
+        public void onLocationClick(LocationModel location) {
+            DialogUtil.showToastMessage(mAct, String.format("lat: %.2f, lng: %.2f", location.lat, location.lng));
         }
     };
 
@@ -120,7 +153,7 @@ public class HomePageFragment extends MainBaseFragment {
 
         isLoading = true;
 
-        ListPostRequestData requestData = new ListPostRequestData(LoginManager.getInstance().getUserId());
+        ListAllPostRequestData requestData = new ListAllPostRequestData(LoginManager.getInstance().getUserId());
         DataCenter.getInstance().doRequest(requestData);
     }
 
@@ -130,6 +163,14 @@ public class HomePageFragment extends MainBaseFragment {
             mPostImageAdapter = new PostImageAdapter(mAct);// getArticleType() == ArticleModel.TYPE_LESSON);
             mContentGridView.setAdapter(mPostImageAdapter);
             mPostImageAdapter.setListener(onImageItemClickListener);
+        }
+    }
+
+    private void newLocationAdapter() {
+        if (mLocationAdapter == null) {
+            mLocationAdapter = new LocationAdapter(mAct);
+            mLocationListView.setAdapter(mLocationAdapter);
+            mLocationAdapter.setListener(onLoationClickListener);
         }
     }
 
@@ -144,13 +185,21 @@ public class HomePageFragment extends MainBaseFragment {
             return;
         }
 
-        if (requestData.getType() == RequestData.TYPE_LIST_POSTS) {
+        if (requestData.getType() == RequestData.TYPE_lIST_ALL_POST) {
             ResponseData<List<PostModel>> resData = responseData;
 
             newPostImageAdapter();
 
             mPostData = resData.getData();
             mPostImageAdapter.setData(mPostData);
+        } else if (requestData.getType() == RequestData.TYPE_LIST_LOCATION) {
+            ResponseData<List<LocationModel>> resData = responseData;
+
+            newLocationAdapter();
+
+            mLocationData = resData.getData();
+            mLocationAdapter.setData(mLocationData);
+
         }
     }
 

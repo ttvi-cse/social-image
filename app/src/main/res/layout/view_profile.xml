@@ -78,4 +78,13 @@
         android:textSize="18sp"
         android:layout_marginTop="@dimen/margin_10"/>
 
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/logout"
+        android:textSize="18sp"
+        android:layout_marginTop="@dimen/margin_10"/>
+
 </LinearLayout>

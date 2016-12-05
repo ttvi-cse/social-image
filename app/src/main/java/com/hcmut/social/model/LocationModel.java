@@ -20,10 +20,10 @@ public class LocationModel extends DataModel {
     public String title;
 
     @SerializedName("lat")
-    public String lat;
+    public double lat;
 
     @SerializedName("lng")
-    public String lng;
+    public double lng;
 
     @SerializedName("created_at")
     public String created_at;

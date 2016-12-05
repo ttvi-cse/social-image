@@ -30,6 +30,9 @@ public abstract class RequestData {
     public static final int TYPE_LIST_LOCATION = 14;
     public static final int TYPE_CREATE_LOCATION = 15;
 
+    public static final int TYPE_lIST_ALL_POST = 16;
+    public static final int TYPE_lIST_POST_LOCATION = 17;
+
     protected int mType;
 
     private HashMap<String, Object> mEventMap = new HashMap<>();

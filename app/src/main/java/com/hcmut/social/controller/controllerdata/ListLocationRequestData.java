@@ -8,8 +8,8 @@ import java.io.UnsupportedEncodingException;
 
 public class ListLocationRequestData extends RequestData {
 
-    public ListLocationRequestData(int type) {
-        super(type);
+    public ListLocationRequestData() {
+        super(TYPE_LIST_LOCATION);
     }
 
     @Override

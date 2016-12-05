@@ -7,6 +7,8 @@ import com.hcmut.social.controller.controllerdata.CreateLocationRequestData;
 import com.hcmut.social.controller.controllerdata.CreatePostRequestData;
 import com.hcmut.social.controller.controllerdata.GetPostDetailRequestData;
 import com.hcmut.social.controller.controllerdata.ListCommentRequestData;
+import com.hcmut.social.controller.controllerdata.ListLocationRequestData;
+import com.hcmut.social.controller.controllerdata.ListPostLocationRequestData;
 import com.hcmut.social.controller.controllerdata.UserActionRequestData;
 import com.hcmut.social.controller.controllerdata.RequestData;
 import com.hcmut.social.controller.controllerdata.ResponseData;
@@ -35,6 +37,9 @@ public class RESTPostController extends RESTController{
 
     private static final String CREATE_LOCATION_PATH = "vendors";
     private static final String LIST_LOCATION_PATH = "vendors";
+
+    private static final String LIST_ALL_POST_PATH = "post/all";
+    private static final String LIST_POST_LOCATION_PATH = "location/%d";
 
 
     @Override
@@ -126,11 +131,35 @@ public class RESTPostController extends RESTController{
 
             case RequestData.TYPE_LIST_LOCATION:
 
-                url = createURL(LIKE_POST_PATH);
+                url = createURL(LIST_LOCATION_PATH);
                 doHTTPRequest(
                         createURLConnection(url, RESTController.METHOD_GET, "application/json"),
                         requestData,
                         new TypeToken<ResponseData<List<LocationModel>>>(){}
+                );
+                break;
+
+            case RequestData.TYPE_lIST_ALL_POST:
+
+                url = createURL(LIST_ALL_POST_PATH);
+                doHTTPRequest(
+                        createURLConnection(url, RESTController.METHOD_GET, "application/json"),
+                        requestData,
+                        new TypeToken<ResponseData<List<PostModel>>>(){}
+                );
+                break;
+
+            case RequestData.TYPE_lIST_POST_LOCATION:
+
+                ListPostLocationRequestData lplRequest = (ListPostLocationRequestData) requestData;
+
+                locationId = lplRequest.getLocationId();
+
+                url = createURL(String.format(LIST_POST_LOCATION_PATH, locationId));
+                doHTTPRequest(
+                        createURLConnection(url, RESTController.METHOD_GET, "application/json"),
+                        requestData,
+                        new TypeToken<ResponseData<List<PostModel>>>(){}
                 );
                 break;
             default:
@@ -148,6 +177,9 @@ public class RESTPostController extends RESTController{
         controllerCenter.addEventHandler(RequestData.TYPE_USER_ACTION, this);
         controllerCenter.addEventHandler(RequestData.TYPE_CREATE_LOCATION, this);
         controllerCenter.addEventHandler(RequestData.TYPE_LIST_LOCATION, this);
+        controllerCenter.addEventHandler(RequestData.TYPE_lIST_ALL_POST, this);
+        controllerCenter.addEventHandler(RequestData.TYPE_lIST_POST_LOCATION, this);
+
 
     }
 }

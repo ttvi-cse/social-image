@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.hcmut.social.LoginManager;
 import com.hcmut.social.R;
+import com.hcmut.social.SocialApplication;
 import com.hcmut.social.activity.PostActivity;
 import com.hcmut.social.activity.PostDetailActivity;
 import com.hcmut.social.adapter.PostAdapter;
@@ -77,7 +78,7 @@ public class MyPageFragment extends MainBaseFragment {
     EditText mUsernameEditText;
     EditText mEmailEditText;
     Button mSaveButton;
-
+    Button mLogoutButton;
 
     private List<PostModel> mPostData;
     private PostAdapter mPostAdapter;
@@ -172,6 +173,21 @@ public class MyPageFragment extends MainBaseFragment {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        mLogoutButton = (Button) rootView.findViewById(R.id.btn_logout);
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager loginManager = LoginManager.getInstance();
+
+                if(loginManager.getUserInfo() == null) {
+                    ((SocialApplication) mAct.getApplication()).logout();
+                    mAct.finish();
+//                    finish();
+                    return;
+                }
             }
         });
 

@@ -123,6 +123,13 @@ public class PostAdapter extends BaseSocialAdapter {
             tv_username.setText(model.createBy.username);
             ImageLoader.getInstance().displayImage(model.thumb, img_content);
 
+            img_content.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(model);
+                }
+            });
+
             /**
              * like, view and share
              */
