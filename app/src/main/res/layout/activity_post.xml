@@ -62,9 +62,16 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:hint="@string/add_title"
+            android:layout_toRightOf="@id/content_imageview"
+            android:id="@+id/title_edit_text" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/add_content"
             android:layout_toRightOf="@id/content_imageview"
+            android:layout_below="@id/title_edit_text"
             android:id="@+id/content_edit_text" />
 
     </RelativeLayout>

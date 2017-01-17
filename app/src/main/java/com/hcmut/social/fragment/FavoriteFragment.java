@@ -24,7 +24,7 @@ public class FavoriteFragment extends MainBaseFragment{
         return fragment;
     }
 
-//    GridView mContentGridView;
+//    GridView mLocationDataGridView;
 
     @Override
     protected int[] getListEventHandle() {
@@ -38,9 +38,9 @@ public class FavoriteFragment extends MainBaseFragment{
 
     @Override
     protected void initView(View rootView, LayoutInflater inflater) {
-//        mContentGridView = (GridView) rootView.findViewById(R.id.content_grid);
+//        mLocationDataGridView = (GridView) rootView.findViewById(R.id.content_grid);
 //
-//        mContentGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        mLocationDataGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            public void onItemClick(AdapterView<?> parent, View v,
 //                                    int position, long id) {
 //                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();

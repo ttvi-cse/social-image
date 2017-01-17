@@ -5,86 +5,127 @@
     android:id="@+id/view_profile"
     android:visibility="gone">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_20"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/profile_avatar_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_avatar"/>
-
-        <TextView
-            android:layout_below="@id/avatar_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_8"
-            android:text="@string/change_profile_photo"
-            android:textColor="@color/blue_main"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_36"
-        android:layout_marginTop="@dimen/margin_20"
-        android:layout_marginRight="@dimen/margin_36"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edt_name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New text"
-            android:textSize="15sp"
-            android:textColor="@color/text_grey"
-            android:drawableLeft="@drawable/ic_name"
-            android:drawablePadding="@dimen/margin_8"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edt_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New text"
-            android:textSize="15sp"
-            android:textColor="@color/text_grey"
-            android:drawableLeft="@drawable/ic_user"
-            android:drawablePadding="@dimen/margin_8"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_20"
+                android:gravity="center">
 
-        <EditText
-            android:id="@+id/edt_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New text"
-            android:textSize="15sp"
-            android:textColor="@color/text_grey"
-            android:drawableLeft="@drawable/ic_email"
-            android:drawablePadding="@dimen/margin_8"/>
+                <ImageView
+                    android:id="@+id/profile_avatar_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_avatar"/>
 
-    </LinearLayout>
+                <TextView
+                    android:layout_below="@id/avatar_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:text="@string/change_profile_photo"
+                    android:textColor="@color/blue_main"/>
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_save"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/save"
-        android:textSize="18sp"
-        android:layout_marginTop="@dimen/margin_10"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_36"
+                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginRight="@dimen/margin_36"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/logout"
-        android:textSize="18sp"
-        android:layout_marginTop="@dimen/margin_10"/>
+                <!--  Name Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone">
+                    <EditText android:id="@+id/username_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:hint="Username" />
+                </android.support.design.widget.TextInputLayout>
 
+                <!-- Email Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone">
+                    <EditText android:id="@+id/email_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:hint="Email" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- Password Label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change password"
+                    android:textColor="@color/blue_main"
+                    android:id="@+id/textView" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp">
+                    <EditText android:id="@+id/password_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="New password"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp">
+                    <EditText android:id="@+id/password_confirm_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Confirm password"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/save"
+                android:textSize="16sp"
+                android:layout_marginTop="@dimen/margin_10"/>
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/logout"
+                android:textSize="16sp"
+                android:layout_marginTop="@dimen/margin_10"/>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

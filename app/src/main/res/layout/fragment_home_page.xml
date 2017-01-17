@@ -3,67 +3,30 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/suggest_image"
-        android:textSize="@dimen/font_size_18sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
-
     <RelativeLayout
         android:id="@+id/content_grid_wraper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <GridView
-            android:id="@+id/content_grid"
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:divider="@drawable/bg_cross"
-            android:columnWidth="90dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
-            android:stretchMode="columnWidth"
-            android:gravity="center"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-        </GridView>
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/content_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="4dp"
+                android:visibility="visible"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
+
     </RelativeLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/suggest_location"
-        android:textSize="@dimen/font_size_18sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/content_grid_wraper">
-        <ListView
-            android:id="@+id/location_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:divider="@drawable/bg_cross"
-            android:dividerHeight="1dp"
-            android:footerDividersEnabled="false"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:scrollbarStyle="outsideOverlay" />
-    </RelativeLayout>
-
 </LinearLayout>

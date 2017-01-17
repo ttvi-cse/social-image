@@ -1,22 +1,21 @@
 package com.hcmut.social.fragment;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hcmut.social.LoginManager;
 import com.hcmut.social.R;
 import com.hcmut.social.activity.PostDetailActivity;
 import com.hcmut.social.adapter.LocationAdapter;
 import com.hcmut.social.adapter.PostImageAdapter;
-import com.hcmut.social.controller.controllerdata.ListAllPostRequestData;
+import com.hcmut.social.controller.controllerdata.ListLocationRequestData;
 import com.hcmut.social.controller.controllerdata.ListPostLocationRequestData;
 import com.hcmut.social.controller.controllerdata.RequestData;
 import com.hcmut.social.controller.controllerdata.ResponseData;
@@ -34,19 +33,18 @@ import de.greenrobot.event.EventBus;
 
 public class SearchFragment extends MainBaseFragment{
 
-    ProgressBar mProgressBar;
-    GridView mContentGridView;
+    SearchView mSearchView;
+    GridView mLocationDataGridView;
+    ListView mLocationListView;
+    TextView mlocationTextView;
 
     private PostImageAdapter mPostImageAdapter;
     private List<PostModel> mPostData;
 
-    private int page = 1;
-    private int mSelectedPos = -1;
-    private boolean hasMore = false;
+    private LocationAdapter mLocationAdapter;
+    private List<LocationModel> mLocationData;
+
     private boolean isLoading = false;
-    private String sort;
-    private String order;
-    private String tag;
 
     public static SearchFragment newInstance() {
         Bundle args = new Bundle();
@@ -76,12 +74,12 @@ public class SearchFragment extends MainBaseFragment{
     }
 
     public void onEvent(LocationModel location) {
-        loadRefreshData(location);
+        loadPostLocationData(location);
     }
 
     @Override
     protected int[] getListEventHandle() {
-        return new int[] {RequestData.TYPE_lIST_POST_LOCATION};
+        return new int[] {RequestData.TYPE_lIST_POST_LOCATION, RequestData.TYPE_LIST_LOCATION};
     }
 
     @Override
@@ -91,10 +89,38 @@ public class SearchFragment extends MainBaseFragment{
 
     @Override
     protected void initView(View rootView, LayoutInflater inflater) {
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
 
-        mContentGridView = (GridView) rootView.findViewById(R.id.content_grid);
-        mContentGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mlocationTextView = (TextView) rootView.findViewById(R.id.tv_location);
+        mlocationTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mlocationTextView.setVisibility(View.GONE);
+                mSearchView.setVisibility(View.VISIBLE);
+                mLocationListView.setVisibility(View.VISIBLE);
+                mLocationDataGridView.setVisibility(View.GONE);
+            }
+        });
+        mSearchView = (SearchView) rootView.findViewById(R.id.searchview);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (mLocationAdapter == null)
+                    return false;
+
+                mLocationAdapter.getFilter().filter(s);
+                return true;
+            }
+        });
+
+        mLocationListView = (ListView) rootView.findViewById(R.id.lv_locations);
+
+        mLocationDataGridView = (GridView) rootView.findViewById(R.id.content_grid);
+        mLocationDataGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
@@ -114,8 +140,20 @@ public class SearchFragment extends MainBaseFragment{
                 mPostImageAdapter.setListener(onImageItemClickListener);
             }
 
-            mContentGridView.setAdapter(mPostImageAdapter);
-            mProgressBar.setVisibility(View.GONE);
+            mLocationDataGridView.setAdapter(mPostImageAdapter);
+        }
+
+        if (mLocationData == null) {
+            loadLocationData();
+        } else {
+            if (mLocationAdapter == null) {
+                mLocationAdapter = new LocationAdapter(mAct);
+                mLocationAdapter.setData(mLocationData);
+                mLocationAdapter.setListener(onLoationClickListener);
+            }
+
+            mLocationListView.setAdapter(mLocationAdapter);
+//            mProgressBar.setVisibility(View.GONE);
         }
     }
 
@@ -128,15 +166,12 @@ public class SearchFragment extends MainBaseFragment{
         }
     };
 
-    private void loadFirstData(LocationModel location) {
-        loadData(location);
+    private void loadLocationData() {
+        ListLocationRequestData requestData = new ListLocationRequestData();
+        DataCenter.getInstance().doRequest(requestData);
     }
 
-    private void loadRefreshData(LocationModel location) {
-        loadData(location);
-    }
-
-    private void loadData(LocationModel location) {
+    private void loadPostLocationData(LocationModel location) {
 
         if(isLoading) return;
 
@@ -146,10 +181,28 @@ public class SearchFragment extends MainBaseFragment{
         DataCenter.getInstance().doRequest(requestData);
     }
 
+    private void newLocationAdapter() {
+        if (mLocationAdapter == null) {
+            mLocationAdapter = new LocationAdapter(mAct);
+            mLocationListView.setAdapter(mLocationAdapter);
+            mLocationAdapter.setListener(onLoationClickListener);
+        }
+    }
+
+    LocationAdapter.OnLocationClickListener onLoationClickListener = new LocationAdapter.OnLocationClickListener() {
+        @Override
+        public void onLocationClick(LocationModel location) {
+            mlocationTextView.setVisibility(View.VISIBLE);
+            mSearchView.setVisibility(View.GONE);
+            mlocationTextView.setText(location.name);
+            loadPostLocationData(location);
+        }
+    };
+
     private void newPostImageAdapter() {
         if(mPostImageAdapter == null) {
             mPostImageAdapter = new PostImageAdapter(mAct);// getArticleType() == ArticleModel.TYPE_LESSON);
-            mContentGridView.setAdapter(mPostImageAdapter);
+            mLocationDataGridView.setAdapter(mPostImageAdapter);
             mPostImageAdapter.setListener(onImageItemClickListener);
         }
     }
@@ -157,7 +210,6 @@ public class SearchFragment extends MainBaseFragment{
     @Override
     public void onLoadSuccessful(RequestData requestData, ResponseData responseData) {
         isLoading = false;
-        mProgressBar.setVisibility(View.GONE);
 
         if(responseData.getError() != null) {
             onLoadFail(requestData, responseData);
@@ -169,15 +221,28 @@ public class SearchFragment extends MainBaseFragment{
 
             newPostImageAdapter();
 
+            mLocationListView.setVisibility(View.GONE);
+            mLocationDataGridView.setVisibility(View.VISIBLE);
+
             mPostData = resData.getData();
             mPostImageAdapter.setData(mPostData);
+        } else if (requestData.getType() == RequestData.TYPE_LIST_LOCATION) {
+            ResponseData<List<LocationModel>> resData = responseData;
+
+            newLocationAdapter();
+
+            mLocationListView.setVisibility(View.VISIBLE);
+            mLocationDataGridView.setVisibility(View.GONE);
+
+            mLocationData = resData.getData();
+            mLocationAdapter.setData(mLocationData);
+
         }
     }
 
     @Override
     public void onLoadFail(RequestData requestData, ResponseData responseData) {
         isLoading = false;
-        mProgressBar.setVisibility(View.GONE);
 
     }
 }

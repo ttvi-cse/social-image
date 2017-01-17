@@ -74,9 +74,10 @@ public class MyPageFragment extends MainBaseFragment {
     // profile
     View mViewProfile;
     ImageView mProfileAvatar;
-    EditText mFullNameEditText;
     EditText mUsernameEditText;
     EditText mEmailEditText;
+    EditText mPasswordEditText;
+    EditText mConfirmPasswordEditText;
     Button mSaveButton;
     Button mLogoutButton;
 
@@ -113,7 +114,6 @@ public class MyPageFragment extends MainBaseFragment {
 
         mAvatarImageView = (ImageView) rootView.findViewById(R.id.avatar_imageview);
         mUsernameTextView = (TextView) rootView.findViewById(R.id.name_text);
-        mNumPostTextView = (TextView) rootView.findViewById(R.id.num_posts_text);
 
         mViewListButon = (ImageView) rootView.findViewById(R.id.view_list_button);
         mViewListButon.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +167,11 @@ public class MyPageFragment extends MainBaseFragment {
                 showdialogAvatar();
             }
         });
+
+        mUsernameEditText = (EditText) rootView.findViewById(R.id.username_edittext);
+        mEmailEditText = (EditText) rootView.findViewById(R.id.email_edittext);
+        mPasswordEditText = (EditText) rootView.findViewById(R.id.password_edittext);
+        mConfirmPasswordEditText = (EditText) rootView.findViewById(R.id.password_confirm_edittext);
 
         mSaveButton = (Button) rootView.findViewById(R.id.btn_save);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -317,6 +322,9 @@ public class MyPageFragment extends MainBaseFragment {
 
         int userId = LoginManager.getInstance().getUserId();
         loadAvatar(userId);
+
+        mUsernameEditText.setText(LoginManager.getInstance().getLoginModel().username);
+        mUsernameEditText.setText(LoginManager.getInstance().getLoginModel().email);
 
 
     }

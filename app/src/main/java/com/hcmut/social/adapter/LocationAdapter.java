@@ -4,30 +4,68 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hcmut.social.R;
 import com.hcmut.social.model.LocationModel;
-import com.hcmut.social.model.LocationModel;
-import com.hcmut.social.model.PostModel;
-import com.hcmut.social.utils.UserUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by John on 10/7/2016.
  */
 
-public class LocationAdapter extends BaseSocialAdapter {
+public class LocationAdapter extends BaseSocialAdapter implements Filterable {
 
-    private List<LocationModel> mData;
+    private List<LocationModel> mOriginalData;
+    private List<LocationModel> mFilterData;
     private OnLocationClickListener listener;
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence filterText) {
+                final FilterResults results = new FilterResults();
+
+                if (filterText == null || filterText.length() == 0) {
+                    synchronized (this) {
+                        results.values = mOriginalData;
+                        results.count = mOriginalData.size();
+                    }
+                } else {
+                    ArrayList<LocationModel> filter = new ArrayList<>();
+                    if (mFilterData != null && mFilterData.size() > 0) {
+                        for (final LocationModel g : mFilterData) {
+                            if (g.name.toLowerCase()
+                                    .contains(filterText.toString()))
+                                filter.add(g);
+                        }
+                    }
+                    results.values = filter;
+                    results.count = filter.size();
+                }
+                return results;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint,
+                                          FilterResults results) {
+                mFilterData = (ArrayList<LocationModel>) results.values;
+                if (results.count > 0) {
+                    notifyDataSetChanged();
+                } else {
+                    notifyDataSetInvalidated();
+                }
+            }
+        };
+    }
 
     public interface OnLocationClickListener {
         void onLocationClick(LocationModel location);
@@ -38,7 +76,8 @@ public class LocationAdapter extends BaseSocialAdapter {
     }
 
     public void setData(List<LocationModel> mData) {
-        this.mData = mData;
+        this.mFilterData = mData;
+        this.mOriginalData = mData;
         notifyDataSetChanged();
     }
 
@@ -48,10 +87,10 @@ public class LocationAdapter extends BaseSocialAdapter {
 
     @Override
     public int getCount() {
-        if (mData == null)
+        if (mFilterData == null)
             return 0;
 
-        return mData.size();
+        return mFilterData.size();
     }
 
     @Override
@@ -72,7 +111,7 @@ public class LocationAdapter extends BaseSocialAdapter {
         } else {
             convertView = (ViewHolder) view;
         }
-        LocationModel model = mData.get(position);
+        LocationModel model = mFilterData.get(position);
         convertView.setData(model, position);
         convertView.bindingData();
         return convertView;

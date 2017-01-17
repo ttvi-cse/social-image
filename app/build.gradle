@@ -20,7 +20,7 @@ android {
         def VERSION_NAME = defaultConfig.versionName.replace(".", "_") + "__" + defaultConfig.versionCode
 
         debug {
-            buildConfigField "String", "ROOT_DOMAIN", "\"http://192.168.1.105:8000/\""
+            buildConfigField "String", "ROOT_DOMAIN", "\"http://192.168.1.126:8000/\""
             buildConfigField "String", "USER_NAME", "\"admin\""
             buildConfigField "String", "PASSWORD", "\"123456\""
             minifyEnabled false
@@ -36,7 +36,7 @@ android {
         }
 
         production {
-            buildConfigField "String", "ROOT_DOMAIN", "\"http://192.168.1.116:8000/\""
+            buildConfigField "String", "ROOT_DOMAIN", "\"http://192.168.1.152:8000/\""
             buildConfigField "String", "USER_NAME", "\"\""
             buildConfigField "String", "PASSWORD", "\"\""
             minifyEnabled false

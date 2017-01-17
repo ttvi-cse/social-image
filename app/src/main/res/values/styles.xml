@@ -2,6 +2,13 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:colorPrimary">@color/primary</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/accent</item>
+
         <!-- Customize your theme here. -->
         <item name="android:actionBarTabBarStyle">@style/TabBar</item>
         <item name="android:textAllCaps">false</item>
@@ -256,5 +263,4 @@
 
 
     <style name="simpletooltip_default" parent="@android:style/TextAppearance.Medium"></style>
-
 </resources>

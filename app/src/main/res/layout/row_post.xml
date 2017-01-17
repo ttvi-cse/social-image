@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_below="@id/header"
+    android:id="@+id/post">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,7 +22,6 @@
             android:text="New Text"
             android:gravity="center_vertical"
             android:textColor="@color/text_grey"
-            android:textSize="18dp"
             android:textStyle="bold"
             android:layout_toRightOf="@id/avatar_imageview"
             android:id="@+id/username_text"/>
@@ -29,9 +30,9 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="215dp"
+        android:layout_height="wrap_content"
         android:id="@+id/content_imageview"
-        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:background="@drawable/img_no_image" />
 
     <RelativeLayout
@@ -45,7 +46,7 @@
         <TextView
             android:text="999"
             android:id="@+id/like_count_text"
-            android:drawableLeft="@drawable/ic_share_count"
+            android:drawableLeft="@drawable/ic_like"
             style="@style/article_row_text_count"
             android:layout_alignParentLeft="true"/>
 
@@ -68,5 +69,49 @@
             android:stepSize="1"
             android:id="@+id/rating_bar" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:background="@color/bg_div">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_grey"/>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_grey"/>
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_grey"/>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_grey"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_grey"/>
+
+    </LinearLayout>
 
 </LinearLayout>

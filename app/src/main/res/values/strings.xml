@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Porject-SocialImage-App</string>
+    <string name="app_name">Social</string>
     <string name="guest_name" />
     <string name="loading">Loading</string>
     <string name="yes">Yes</string>
@@ -41,7 +41,8 @@
     <string name="images">Images</string>
     <string name="comments">Comments</string>
     <string name="post">Post</string>
-    <string name="add_content">Add content</string>
+    <string name="add_content">Content</string>
+    <string name="add_title">Title</string>
     <string name="add_position">Add position</string>
     <string name="add_favorite">Add favorite</string>
 
@@ -53,6 +54,7 @@
     <string name="error_require_username">Please enter username.</string>
     <string name="error_require_email">Please enter email.</string>
     <string name="error_require_password">Please enter password.</string>
+    <string name="error_require_confirm_password">Please enter confirm password.</string>
 
     <!--My page-->
     <string name="choise_file">Choise your file resource: </string>

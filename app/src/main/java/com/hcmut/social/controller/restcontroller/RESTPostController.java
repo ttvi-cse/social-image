@@ -58,6 +58,7 @@ public class RESTPostController extends RESTController{
             case RequestData.TYPE_CREATE_POST:
                 CreatePostRequestData cpRequest = (CreatePostRequestData) requestData;
                 String path = cpRequest.getImageUri();
+                String title = cpRequest.getTitle();
                 String content  = cpRequest.getContent();
                 int locationId = cpRequest.getLocationId();
 
@@ -67,6 +68,7 @@ public class RESTPostController extends RESTController{
                         requestData,
                         new TypeToken<ResponseData<Object>>(){},
                         path,
+                        title,
                         content,
                         String.valueOf(locationId)
                 );

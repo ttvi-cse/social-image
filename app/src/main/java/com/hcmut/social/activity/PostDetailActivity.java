@@ -1,21 +1,19 @@
 package com.hcmut.social.activity;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.facebook.stetho.inspector.protocol.module.Network;
 import com.hcmut.social.R;
-import com.hcmut.social.adapter.CommentAdapter;
 import com.hcmut.social.controller.controllerdata.CreateComentRequestData;
 import com.hcmut.social.controller.controllerdata.GetPostDetailRequestData;
 import com.hcmut.social.controller.controllerdata.ListCommentRequestData;
@@ -27,7 +25,9 @@ import com.hcmut.social.model.CommentModel;
 import com.hcmut.social.model.PostModel;
 import com.hcmut.social.utils.DialogUtil;
 import com.hcmut.social.utils.UserUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
 
@@ -39,7 +39,6 @@ public class PostDetailActivity extends BaseActivity {
 
     public static final String EXTRA_POST_ID = "e_postid";
 
-    ProgressBar mProgressBar;
 
     ImageButton mBackButton;
     ImageView mAvatarImageView;
@@ -49,17 +48,24 @@ public class PostDetailActivity extends BaseActivity {
     TextView mViewCountTextView;
     RatingBar mRatingBar;
 
-    ListView mCommentListView;
+    TextView tvTitle;
+    TextView tvContent;
+    TextView tvLocation;
+    TextView tvTime;
+
+    LinearLayout mCommentLayout;
 
     EditText mCommentEditText;
     Button mSendButton;
 
 //    SwipeRefreshLayout mSwipeRefreshLayout;
     private List<CommentModel> mCommentData;
-    private CommentAdapter mCommentAdapter;
     private PostModel mPostData;
     private int mPostID;
     private boolean isLoading = false;
+
+    private DisplayImageOptions mOpts;
+    private TextView mAddressTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +118,7 @@ public class PostDetailActivity extends BaseActivity {
             }
         });
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        mCommentListView = (ListView) findViewById(R.id.comment_listview);
+        mCommentLayout = (LinearLayout) findViewById(R.id.comment_layout);
 
         mCommentEditText = (EditText) findViewById(R.id.comment_edittext);
         mSendButton = (Button) findViewById(R.id.send_button);
@@ -132,8 +137,20 @@ public class PostDetailActivity extends BaseActivity {
             }
         });
 
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        tvContent = (TextView) findViewById(R.id.tv_content);
+        tvLocation = (TextView) findViewById(R.id.tv_location);
+        mAddressTextView = (TextView) findViewById(R.id.tv_address);
+        tvTime = (TextView) findViewById(R.id.tv_time);
+
         mPostID = getIntent().getIntExtra(EXTRA_POST_ID, -1);
 
+        mOpts = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer(6))
+                .showImageOnLoading(R.drawable.ic_avatar)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
     }
 
     @Override
@@ -160,11 +177,49 @@ public class PostDetailActivity extends BaseActivity {
 
     }
 
-    private void newComentAdapter() {
-        if (mCommentAdapter == null) {
-            mCommentAdapter = new CommentAdapter(PostDetailActivity.this);
-            mCommentListView.setAdapter(mCommentAdapter);
+//    private void newComentAdapter() {
+//        if (mCommentAdapter == null) {
+//            mCommentAdapter = new CommentAdapter(PostDetailActivity.this);
+//            mCommentListView.setAdapter(mCommentAdapter);
+//        }
+//    }
+
+    private void fetchComments(List<CommentModel> comments) {
+        mCommentLayout.removeAllViews();
+
+        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        for (int i = 0; i < comments.size(); i++) {
+            CommentModel model = comments.get(i);
+
+            View view = inflater.inflate(R.layout.row_comment, null, false);
+
+            ImageView img_avatar = (ImageView) view.findViewById(R.id.avatar_imageview);
+            TextView tv_content = (TextView) view.findViewById(R.id.content_text);
+            TextView tv_time = (TextView) view.findViewById(R.id.time_text);
+
+            ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(model.createBy.id + ""), img_avatar, mOpts);
+
+            tv_content.setText(String.format("%s: %s", model.createBy.username, model.content));
+            tv_time.setText(model.created_at+"");
+
+            mCommentLayout.addView(view, 0);
         }
+    }
+
+    private void addComment(CommentModel comment) {
+        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.row_comment, null, false);
+
+        ImageView img_avatar = (ImageView) view.findViewById(R.id.avatar_imageview);
+        TextView tv_content = (TextView) view.findViewById(R.id.content_text);
+        TextView tv_time = (TextView) view.findViewById(R.id.time_text);
+
+        ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(comment.createBy.id + ""), img_avatar, mOpts);
+
+        tv_content.setText(String.format("%s: %s", comment.createBy.username, comment.content));
+        tv_time.setText(comment.created_at+"");
+
+        mCommentLayout.addView(view, mCommentLayout.getChildCount());
     }
 
     @Override
@@ -180,7 +235,6 @@ public class PostDetailActivity extends BaseActivity {
     @Override
     public void onLoadSuccessful(RequestData requestData, ResponseData responseData) {
         isLoading = false;
-        mProgressBar.setVisibility(View.GONE);
 //        mSwipeRefreshLayout.setRefreshing(false);
 
         if(responseData.getError() != null) {
@@ -198,8 +252,11 @@ public class PostDetailActivity extends BaseActivity {
             /**
              * avatar, name
              */
-            ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(mPostData.createBy.id + ""), mAvatarImageView);
-            mUsernameTextView.setText(mPostData.createBy.username);
+            if (mPostData.createBy != null) {
+                ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(mPostData.createBy.id + ""), mAvatarImageView);
+                mUsernameTextView.setText(mPostData.createBy.username);
+            }
+
             ImageLoader.getInstance().displayImage(mPostData.thumb, mContentImageView);
 
             /**
@@ -211,6 +268,7 @@ public class PostDetailActivity extends BaseActivity {
             mRatingBar.setRating(mPostData.rating_average);
 
             if (mPostData.is_liked) {
+                mLikeCountTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_fill, 0,0,0);
                 mLikeCountTextView.setClickable(false);
             }
 
@@ -218,28 +276,28 @@ public class PostDetailActivity extends BaseActivity {
                 mRatingBar.setIsIndicator(true);
             }
 
-
+            tvTitle.setText(String.format("Title: %s", mPostData.title));
+            tvContent.setText(String.format("Content: %s", mPostData.content));
+            tvLocation.setText(String.format("Location: %s", mPostData.locations.name));
+            mAddressTextView.setText(String.format("Address: %s", mPostData.locations.address));
+            tvTime.setText(String.format("Created at: %s", model.created_at));
 
         } else if (requestData.getType() == RequestData.TYPE_LIST_COMMENTS) {
             ResponseData<List<CommentModel>> resData = responseData;
 
             List<CommentModel> models = resData.getData();
-
-            newComentAdapter();
+            fetchComments(models);
 
             mCommentData = models;
-            mCommentAdapter.setData(mCommentData);
 
         } else if (requestData.getType() == RequestData.TYPE_CREATE_COMMENT) {
             ResponseData<CommentModel> resData = responseData;
 
             CommentModel model = resData.getData();
 
-            newComentAdapter();
+            addComment(model);
 
             mCommentData.add(model);
-            mCommentAdapter.setData(mCommentData);
-
             mCommentEditText.setText("");
 
         } else if (requestData.getType() == RequestData.TYPE_USER_ACTION) {
@@ -249,6 +307,7 @@ public class PostDetailActivity extends BaseActivity {
                 mPostData.is_liked = true;
 
                 mLikeCountTextView.setText(mPostData.like_count + "");
+                mLikeCountTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_fill, 0,0,0);
             } else if (actionId.equals("2")) {
                 // disable rating again
                 mPostData.is_rated = true;
@@ -260,7 +319,6 @@ public class PostDetailActivity extends BaseActivity {
     @Override
     public void onLoadFail(RequestData requestData, ResponseData responseData) {
         isLoading = false;
-        mProgressBar.setVisibility(View.GONE);
 //        mSwipeRefreshLayout.setRefreshing(false);
 
     }

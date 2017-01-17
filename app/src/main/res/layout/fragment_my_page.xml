@@ -39,12 +39,6 @@
             android:gravity="center"
             android:layout_alignParentRight="true">
 
-            <TextView
-                android:id="@+id/num_posts_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/post_num"/>
-
             <Button
                 android:id="@+id/post_button"
                 android:layout_width="wrap_content"

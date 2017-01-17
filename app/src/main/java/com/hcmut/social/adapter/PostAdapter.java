@@ -90,6 +90,11 @@ public class PostAdapter extends BaseSocialAdapter {
         ImageView img_content;
         TextView tv_like_count;
         TextView tv_view_count;
+        TextView tv_title;
+        TextView tv_content;
+        TextView tv_location;
+        TextView tv_address;
+        TextView tv_time;
         RatingBar rating_bar;
 
         PostModel model;
@@ -107,6 +112,11 @@ public class PostAdapter extends BaseSocialAdapter {
             img_content = (ImageView) findViewById(R.id.content_imageview);
             tv_like_count = (TextView) findViewById(R.id.like_count_text);
             tv_view_count = (TextView) findViewById(R.id.view_count_text);
+            tv_title = (TextView) findViewById(R.id.tv_title);
+            tv_content = (TextView) findViewById(R.id.tv_content);
+            tv_location = (TextView) findViewById(R.id.tv_location);
+            tv_address = (TextView) findViewById(R.id.tv_address);
+            tv_time = (TextView) findViewById(R.id.tv_time);
             rating_bar = (RatingBar) findViewById(R.id.rating_bar);
         }
 
@@ -119,8 +129,10 @@ public class PostAdapter extends BaseSocialAdapter {
             /**
              * avatar, name
              */
-            ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(model.createBy.id + ""), img_avatar);
-            tv_username.setText(model.createBy.username);
+            if (model.createBy != null) {
+                ImageLoader.getInstance().displayImage(UserUtil.getAvatarLink(model.createBy.id + ""), img_avatar);
+                tv_username.setText(model.createBy.username);
+            }
             ImageLoader.getInstance().displayImage(model.thumb, img_content);
 
             img_content.setOnClickListener(new OnClickListener() {
@@ -138,8 +150,27 @@ public class PostAdapter extends BaseSocialAdapter {
             tv_view_count.setText(model.view_count+"");
             rating_bar.setRating(model.rating_average);
 
+            if (model.is_liked) {
+                tv_like_count.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_fill, 0,0,0);
+//                tv_like_count.setClickable(false);
+            } else {
+                tv_like_count.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like, 0,0,0);
+            }
+
+//            if (model.is_rated) {
+//                rating_bar.setIsIndicator(true);
+//            }
+
             tv_like_count.setClickable(false);
             rating_bar.setIsIndicator(true);
+
+            tv_title.setText(String.format("Title: %s", model.title));
+            tv_content.setText(String.format("Content: %s", model.content));
+            if (model.locations != null) {
+                tv_location.setText(String.format("Location: %s", model.locations.name));
+                tv_address.setText(String.format("Address: %s", model.locations.address));
+            }
+            tv_time.setText(String.format("Created at: %s", model.created_at));
 
         }
     }

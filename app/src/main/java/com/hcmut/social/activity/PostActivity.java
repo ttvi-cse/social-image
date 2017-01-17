@@ -72,7 +72,9 @@ public class PostActivity extends BaseActivity {
     ImageButton mBackButton;
     ImageView mContentImageView;
     EditText mContentEditText;
+    EditText mTitleEditText;
     TextView mLocationTextView;
+    TextView mAddressTextView;
     TextView mPostTextView;
 
     private String imagePath;
@@ -115,7 +117,9 @@ public class PostActivity extends BaseActivity {
 
         mContentImageView = (ImageView) findViewById(R.id.content_imageview);
         mContentEditText = (EditText) findViewById(R.id.content_edit_text);
+        mTitleEditText = (EditText) findViewById(R.id.title_edit_text);
         mLocationTextView = (TextView) findViewById(R.id.location_text);
+
         mLocationTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,24 +213,19 @@ public class PostActivity extends BaseActivity {
             return;
         }
 
-        hideProgressDialog();
+
 
         if (requestData.getType() == RequestData.TYPE_CREATE_POST) {
+            hideProgressDialog();
             finish();
         } else if (requestData.getType() == RequestData.TYPE_CREATE_LOCATION) {
 
             LocationModel resData = (LocationModel) responseData.getData();
 
+            String title = mTitleEditText.getText().toString();
             String content = mContentEditText.getText().toString();
-            int userId = LoginManager.getInstance().getLoginModel().id;
 
-            showProgressDialog();
-//            if (showLocation) {
-//
-//            } else {
-//
-//            }
-            CreatePostRequestData cpRequest = new CreatePostRequestData(String.valueOf(userId), imagePath, content, resData.id);
+            CreatePostRequestData cpRequest = new CreatePostRequestData(imagePath, title, content, resData.id);
             DataCenter.getInstance().doRequest(cpRequest);
 
         } else if (requestData.getType() == RequestData.TYPE_LIST_LOCATION) {

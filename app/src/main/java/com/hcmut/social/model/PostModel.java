@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class PostModel extends DataModel{
 
 //     "id": 8,
+//    "title": "",
 //    "content": "hehehh",
 //    "view_count": 0,
 //    "like_count": 0,
@@ -29,9 +30,20 @@ public class PostModel extends DataModel{
 //        "remember_token": null,
 //        "created_at": ""
 //    },
+//    "locations": {
+//        "id": 3,
+//        "place_id": "ChIJDZPwOKcodTERNPN2M2CoZ_o",
+//        "name": "Công Ty Cp Center Realestate Viet Nam",
+//        "address": "292 Ung Văn Khiêm, 25, Bình Thạnh, Hồ Chí Minh, Việt Nam",
+//        "phone": "",
+//        "created_at": "2016-12-05T14:57:12+00:00"
+//    }
 
     @SerializedName("id")
     public int id;
+
+    @SerializedName("title")
+    public String title;
 
     @SerializedName("content")
     public String content;
@@ -65,5 +77,8 @@ public class PostModel extends DataModel{
 
     @SerializedName("created_by_user")
     public LoginModel createBy;
+
+    @SerializedName("locations")
+    public LocationModel locations;
 
 }
